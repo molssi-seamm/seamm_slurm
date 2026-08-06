@@ -34,10 +34,14 @@ a job has left the live queue.
 
 This package intentionally has no SEAMM-core/`molsystem`/dashboard
 dependency and no notion of SEAMM's own job-status vocabulary -- it only
-speaks SLURM's. `seamm_jobserver` (whole-flowchart submission) is the first
-consumer; a future `seamm_exec` `Slurm` executor (per-step submission) is
-expected to reuse the same backend rather than duplicating the SLURM-CLI
-handling.
+speaks SLURM's. `seamm_jobserver`'s whole-flowchart SLURM submission mode is
+the first consumer, validated end-to-end against a real cluster; a future
+`seamm_exec` `Slurm` executor (per-step submission) is expected to reuse the
+same backend rather than duplicating the SLURM-CLI handling.
 
-See `~/Work/SEAMM/jobserver-slurm-plan.md` for the full design/plan this
-package is part of.
+See `docs/developer_guide/campaigns/2026-08-06/index.rst` in this repo for
+the design rationale. The cross-repo plan this package is part of (SEAMM
+JobServer's SLURM integration as a whole, spanning this package and
+`seamm_jobserver`) is currently tracked as a workspace-level living document
+outside any single repo; it's expected to move into proper repo
+documentation at some point.

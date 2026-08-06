@@ -1,6 +1,18 @@
 2026-08-06 -- Initial scaffold
 ===============================
 
+Status (2026-08-06, later)
+---------------------------
+
+Wired into ``seamm_jobserver``'s whole-flowchart SLURM submission mode and
+validated end-to-end against a real cluster (MolSSI10), isolated from its
+live production JobServer: real ``sbatch``-to-completion runs, a genuine
+resubmit-and-give-up sequence under repeated real SLURM failures, and a
+deterministic kill/restart test confirming reattachment resumes a still-live
+SLURM job without duplicate submission. One correction to the design below:
+no conda activation turned out to be needed in the sbatch payload after all
+(see "Not in this package").
+
 Scope
 -----
 
@@ -60,10 +72,11 @@ Design points
 Not in this package
 --------------------
 
-- Building the actual sbatch payload for a SEAMM flowchart run (conda
-  activation, ``run_from_jobserver`` invocation) -- that's
-  ``seamm_jobserver``'s job (Phase 2), using ``script.build_script()`` from
-  here for the ``#SBATCH`` boilerplate.
+- Building the actual sbatch payload for a SEAMM flowchart run (the
+  ``run_from_jobserver`` invocation -- no conda activation needed, since it's
+  invoked by its full absolute path and SLURM inherits the submitting
+  environment) -- that's ``seamm_jobserver``'s job (Phase 2), using
+  ``script.build_script()`` from here for the ``#SBATCH`` boilerplate.
 - The ``<root>/<jobserver-name>.ini`` config file and its multi-section
   (multi-cluster) routing -- also Phase 2/``seamm_jobserver``.
 - A generic multi-scheduler abstraction (PBS/LSF/etc.) -- the config format
