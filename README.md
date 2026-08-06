@@ -32,6 +32,17 @@ returns a `JobStatus` per ID, merging live state from `squeue` with
 historical/terminal state from `sacct` -- `sacct` is the source of truth once
 a job has left the live queue.
 
+`seamm_slurm.config` reads a JobServer's `<root>/<jobserver-name>.ini`
+(`load_slurm_config`/`SlurmSection`) -- the same system/machine config file
+`seamm_jobserver` itself uses, moved here so any dependency-light consumer
+(a future job-submission UI, for instance) can read and validate it without
+pulling in the rest of the SEAMM stack. Includes an optional
+`[<section>.limits]` companion section and `SlurmSection.merge_overrides()`,
+for sites that want to let a job override some of the section's defaults
+(cores, memory, walltime, ...) within enumerated choices or numeric/size/
+time bounds -- secure by default, nothing is overridable unless a site's
+`.limits` section says so.
+
 This package intentionally has no SEAMM-core/`molsystem`/dashboard
 dependency and no notion of SEAMM's own job-status vocabulary -- it only
 speaks SLURM's. `seamm_jobserver`'s whole-flowchart SLURM submission mode is
@@ -39,9 +50,7 @@ the first consumer, validated end-to-end against a real cluster; a future
 `seamm_exec` `Slurm` executor (per-step submission) is expected to reuse the
 same backend rather than duplicating the SLURM-CLI handling.
 
-See `docs/developer_guide/campaigns/2026-08-06/index.rst` in this repo for
-the design rationale. The cross-repo plan this package is part of (SEAMM
-JobServer's SLURM integration as a whole, spanning this package and
-`seamm_jobserver`) is currently tracked as a workspace-level living document
-outside any single repo; it's expected to move into proper repo
-documentation at some point.
+See `docs/developer_guide/campaigns/2026-08-06/index.rst` in this repo, and
+`seamm_jobserver`'s own `docs/developer_guide/campaigns/2026-08-05/` (the
+full cross-repo SLURM-integration campaign, moved there from a
+workspace-level scratch doc), for the design rationale.
