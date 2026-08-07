@@ -1,0 +1,7 @@
+seamm_slurm
+===========
+
+.. toctree::
+   :maxdepth: 4
+
+   seamm_slurm

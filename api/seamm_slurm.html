@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>seamm_slurm package &#8212; SEAMM SLURM  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/seamm_slurm';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developer Documentation" href="../developer_guide/index.html" />
+    <link rel="prev" title="seamm_slurm" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SEAMM SLURM  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer_guide/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developer_guide/index.html">
+    Developer Documentation
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">seamm_slurm</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">seamm_slurm package</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Documentation</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="modules.html" class="nav-link">seamm_slurm</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">seamm_slurm package</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="seamm-slurm-package">
+<h1>seamm_slurm package<a class="headerlink" href="#seamm-slurm-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-seamm_slurm.backend">
+<span id="seamm-slurm-backend-module"></span><h2>seamm_slurm.backend module<a class="headerlink" href="#module-seamm_slurm.backend" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">SlurmBackend</span></code>: shared submit/poll/cancel logic for talking to SLURM.</p>
+<p>Subclasses (<code class="docutils literal notranslate"><span class="pre">LocalSlurm</span></code>, <code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code>) only need to implement <code class="docutils literal notranslate"><span class="pre">_run</span></code> –
+how to actually execute a SLURM CLI command (locally, or over SSH). Command
+construction, the JSON-vs-text fallback (not every SLURM version supports
+<code class="docutils literal notranslate"><span class="pre">squeue</span> <span class="pre">--json</span></code>/<code class="docutils literal notranslate"><span class="pre">sacct</span> <span class="pre">--json</span></code> – confirmed during Phase 0 groundwork:
+SLURM 21.08.5 has it, SLURM 20.11.4 doesn’t), and output parsing all live
+here once, so both transports behave identically.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmBackend">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.backend.</span></span><span class="sig-name descname"><span class="pre">SlurmBackend</span></span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmBackend" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Talks to a SLURM cluster’s <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>/<code class="docutils literal notranslate"><span class="pre">squeue</span></code>/<code class="docutils literal notranslate"><span class="pre">sacct</span></code>/<code class="docutils literal notranslate"><span class="pre">scancel</span></code>,
+via some transport.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmBackend.cancel">
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmBackend.cancel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmBackend.cancel" title="Link to this definition">#</a></dt>
+<dd><p>Cancel a submitted job.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmBackend.poll_many">
+<span class="sig-name descname"><span class="pre">poll_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmBackend.poll_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmBackend.poll_many" title="Link to this definition">#</a></dt>
+<dd><p>Get the current status of a batch of jobs, in as few SLURM CLI
+calls as possible (one <code class="docutils literal notranslate"><span class="pre">squeue</span></code> call, plus one <code class="docutils literal notranslate"><span class="pre">sacct</span></code> call for
+anything <code class="docutils literal notranslate"><span class="pre">squeue</span></code> no longer lists).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>job_ids</strong> (<em>[</em><em>str</em><em>]</em>) – The SLURM job IDs to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>{str</strong> – Keyed by job ID. A job ID that SLURM has no record of at all
+(e.g. purged from accounting) is simply absent from the result;
+callers should treat “missing” the same as “can’t confirm this
+job still exists”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JobStatus}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmBackend.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmBackend.submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmBackend.submit" title="Link to this definition">#</a></dt>
+<dd><p>Submit a script (its full text, including any <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> lines
+and shebang – see <code class="docutils literal notranslate"><span class="pre">seamm_slurm.script.build_script</span></code>) via
+<code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">--parsable</span></code>, fed on stdin. Never needs the script to exist
+as a file the target host can see.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The SLURM job ID.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.backend.</span></span><span class="sig-name descname"><span class="pre">SlurmError</span></span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Raised when a SLURM CLI command fails unexpectedly.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="seamm_slurm.backend.SlurmSubmitError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.backend.</span></span><span class="sig-name descname"><span class="pre">SlurmSubmitError</span></span><a class="reference internal" href="../_modules/seamm_slurm/backend.html#SlurmSubmitError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.backend.SlurmSubmitError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seamm_slurm.backend.SlurmError" title="seamm_slurm.backend.SlurmError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlurmError</span></code></a></p>
+<p>Raised when <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> fails to submit a job.</p>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.config">
+<span id="seamm-slurm-config-module"></span><h2>seamm_slurm.config module<a class="headerlink" href="#module-seamm_slurm.config" title="Link to this heading">#</a></h2>
+<p>Load a JobServer’s <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> SLURM/queue config.</p>
+<p>System/machine config, not a user preference – lives at <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;</span></code>
+(<code class="docutils literal notranslate"><span class="pre">~/SEAMM</span></code> by default), alongside <code class="docutils literal notranslate"><span class="pre">orca.ini</span></code>/<code class="docutils literal notranslate"><span class="pre">lammps.ini</span></code>/
+<code class="docutils literal notranslate"><span class="pre">dashboards.ini</span></code>, not in <code class="docutils literal notranslate"><span class="pre">~/.seamm.d/seamm.ini</span></code>. Named after the
+JobServer instance (its <code class="docutils literal notranslate"><span class="pre">--name</span></code>, default hostname) rather than a fixed
+<code class="docutils literal notranslate"><span class="pre">slurm.ini</span></code>, since a JobServer may eventually route jobs to more than one
+cluster/queue – one section per cluster/queue target.</p>
+<p>Lives in <code class="docutils literal notranslate"><span class="pre">seamm_slurm</span></code> (not <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>, where it started) so any
+dependency-light consumer – <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code> today, a future
+<code class="docutils literal notranslate"><span class="pre">seamm_webui</span></code> job-submission UI, a future <code class="docutils literal notranslate"><span class="pre">seamm_exec</span></code> per-step executor
+– can read/validate this file without pulling in the rest of the SEAMM
+stack. See <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s <code class="docutils literal notranslate"><span class="pre">docs/developer_guide/campaigns/</span>
+<span class="pre">2026-08-05/</span></code> for the full design.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.config.FieldLimits">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.config.</span></span><span class="sig-name descname"><span class="pre">FieldLimits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#FieldLimits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.FieldLimits" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Constraints on a per-job override of one SLURM directive.</p>
+<p>All fields optional: a directive can be listed as overridable with no
+constraint at all, meaning “any value SLURM itself accepts.”</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.FieldLimits.choices">
+<span class="sig-name descname"><span class="pre">choices</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.FieldLimits.choices" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.FieldLimits.maximum">
+<span class="sig-name descname"><span class="pre">maximum</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.FieldLimits.maximum" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.FieldLimits.minimum">
+<span class="sig-name descname"><span class="pre">minimum</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.FieldLimits.minimum" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.config.</span></span><span class="sig-name descname"><span class="pre">SlurmSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrent_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resubmits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>One cluster/queue target from a <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.build_backend">
+<span class="sig-name descname"><span class="pre">build_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection.build_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection.build_backend" title="Link to this definition">#</a></dt>
+<dd><p>Construct the <code class="docutils literal notranslate"><span class="pre">seamm_slurm</span></code> backend this section describes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.directives">
+<span class="sig-name descname"><span class="pre">directives</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.directives" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.host">
+<span class="sig-name descname"><span class="pre">host</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.host" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.limits">
+<span class="sig-name descname"><span class="pre">limits</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.limits" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.max_concurrent_jobs">
+<span class="sig-name descname"><span class="pre">max_concurrent_jobs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.max_concurrent_jobs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.max_resubmits">
+<span class="sig-name descname"><span class="pre">max_resubmits</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.max_resubmits" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.merge_overrides">
+<span class="sig-name descname"><span class="pre">merge_overrides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requested</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection.merge_overrides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection.merge_overrides" title="Link to this definition">#</a></dt>
+<dd><p>Merge a job’s requested per-directive overrides on top of this
+section’s defaults, validating each against <code class="docutils literal notranslate"><span class="pre">self.limits</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requested</strong> (<em>dict</em><em>(</em><em>str</em><em>, </em><em>any</em><em>)</em>) – Directive overrides a job asked for, e.g. <code class="docutils literal notranslate"><span class="pre">{&quot;ntasks&quot;:</span> <span class="pre">4}</span></code> –
+typically a job’s <code class="docutils literal notranslate"><span class="pre">parameters[&quot;slurm&quot;]</span></code> (minus any non-directive
+keys such as a future cluster-routing <code class="docutils literal notranslate"><span class="pre">&quot;section&quot;</span></code>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The final directives dict (this section’s defaults with the
+validated overrides applied), ready for
+<code class="docutils literal notranslate"><span class="pre">seamm_slurm.script.build_script</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If a requested field isn’t overridable for this section, or its
+    value is outside the configured choices/bounds. Never trust a
+    caller (e.g. a web UI) to have already enforced this –
+    validate here regardless of what constrained the request’s
+    origin.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.transport">
+<span class="sig-name descname"><span class="pre">transport</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.transport" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="seamm_slurm.config.load_slurm_config">
+<span class="sig-prename descclassname"><span class="pre">seamm_slurm.config.</span></span><span class="sig-name descname"><span class="pre">load_slurm_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jobserver_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#load_slurm_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.load_slurm_config" title="Link to this definition">#</a></dt>
+<dd><p>Load <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver_name&gt;.ini</span></code>, if it exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>str</em><em> or </em><em>Path</em>) – The SEAMM root directory (e.g. <code class="docutils literal notranslate"><span class="pre">~/SEAMM</span></code>), same as every other
+per-code <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file.</p></li>
+<li><p><strong>jobserver_name</strong> (<em>str</em>) – This JobServer instance’s <code class="docutils literal notranslate"><span class="pre">--name</span></code> (default: hostname).</p></li>
+<li><p><strong>section</strong> (<em>str</em><em> or </em><em>None</em>) – Which section to use. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, uses <code class="docutils literal notranslate"><span class="pre">[DEFAULT]</span></code>’s
+<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span></code> key, falling back to the sole section if there is
+exactly one and no <code class="docutils literal notranslate"><span class="pre">default</span></code> is set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code> means “no such file” – the caller should fall back to
+running jobs as local subprocesses, exactly as if this feature did
+not exist.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#seamm_slurm.config.SlurmSection" title="seamm_slurm.config.SlurmSection">SlurmSection</a> or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.local">
+<span id="seamm-slurm-local-module"></span><h2>seamm_slurm.local module<a class="headerlink" href="#module-seamm_slurm.local" title="Link to this heading">#</a></h2>
+<p>Run SLURM CLI commands directly on the current host.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.local.LocalSlurm">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.local.</span></span><span class="sig-name descname"><span class="pre">LocalSlurm</span></span><a class="reference internal" href="../_modules/seamm_slurm/local.html#LocalSlurm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.local.LocalSlurm" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seamm_slurm.backend.SlurmBackend" title="seamm_slurm.backend.SlurmBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlurmBackend</span></code></a></p>
+<p>Talks to SLURM’s CLI (<code class="docutils literal notranslate"><span class="pre">sbatch</span></code>/<code class="docutils literal notranslate"><span class="pre">squeue</span></code>/<code class="docutils literal notranslate"><span class="pre">sacct</span></code>/<code class="docutils literal notranslate"><span class="pre">scancel</span></code>)
+directly on the current host – the case where the caller (e.g. a
+JobServer) runs on a SLURM submit host, such as a cluster’s head/login
+node, with those commands on <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.script">
+<span id="seamm-slurm-script-module"></span><h2>seamm_slurm.script module<a class="headerlink" href="#module-seamm_slurm.script" title="Link to this heading">#</a></h2>
+<p>Build a full <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> script from a directives dict and a payload.</p>
+<p>Matches the <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> config shape used by
+<code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code> (see <code class="docutils literal notranslate"><span class="pre">~/Work/SEAMM/jobserver-slurm-plan.md</span></code>): each
+cluster/queue section’s keys (<code class="docutils literal notranslate"><span class="pre">partition</span></code>, <code class="docutils literal notranslate"><span class="pre">account</span></code>, <code class="docutils literal notranslate"><span class="pre">qos</span></code>, <code class="docutils literal notranslate"><span class="pre">nodes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ntasks</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">mem</span></code>, <code class="docutils literal notranslate"><span class="pre">gpus</span></code>, …) map directly to <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code>
+directives here. A blank/<code class="docutils literal notranslate"><span class="pre">None</span></code> value means “don’t pass that directive” –
+let SLURM’s own defaults apply.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="seamm_slurm.script.build_script">
+<span class="sig-prename descclassname"><span class="pre">seamm_slurm.script.</span></span><span class="sig-name descname"><span class="pre">build_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directives</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/bin/bash'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/script.html#build_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.script.build_script" title="Link to this definition">#</a></dt>
+<dd><p>Build a full sbatch script: shebang, <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> lines, then payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directives</strong> (<em>dict</em><em>(</em><em>str</em><em>, </em><em>any</em><em>)</em>) – SLURM submission options, keyed by the plain names in
+<code class="docutils literal notranslate"><span class="pre">_DIRECTIVE_FLAGS</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;partition&quot;</span></code>, not <code class="docutils literal notranslate"><span class="pre">&quot;--partition&quot;</span></code>).
+A key with a blank string or <code class="docutils literal notranslate"><span class="pre">None</span></code> value is skipped – not passed
+to <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> at all. Keys not in <code class="docutils literal notranslate"><span class="pre">_DIRECTIVE_FLAGS</span></code> are passed
+through as-is, converting underscores to dashes (e.g.
+<code class="docutils literal notranslate"><span class="pre">{&quot;gres&quot;:</span> <span class="pre">&quot;gpu:1&quot;}</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--gres=gpu:1</span></code>), so a
+<code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> section can carry SLURM options this
+module doesn’t special-case without any code change here.</p></li>
+<li><p><strong>payload</strong> (<em>str</em>) – The body of the script – the actual commands to run (conda
+activation, then the job’s command line). Used verbatim, after the
+<code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> block.</p></li>
+<li><p><strong>shell</strong> (<em>str = &quot;/bin/bash&quot;</em>) – The shebang interpreter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The full script text, ready to hand to <code class="docutils literal notranslate"><span class="pre">SlurmBackend.submit()</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.ssh">
+<span id="seamm-slurm-ssh-module"></span><h2>seamm_slurm.ssh module<a class="headerlink" href="#module-seamm_slurm.ssh" title="Link to this heading">#</a></h2>
+<p>Run SLURM CLI commands on a remote host over SSH.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.ssh.SshSlurm">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.ssh.</span></span><span class="sig-name descname"><span class="pre">SshSlurm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ssh'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/ssh.html#SshSlurm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.ssh.SshSlurm" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seamm_slurm.backend.SlurmBackend" title="seamm_slurm.backend.SlurmBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlurmBackend</span></code></a></p>
+<p>Talks to SLURM’s CLI on a remote host over passwordless SSH – the
+case where the caller (e.g. a JobServer) does not itself run on a SLURM
+submit host, and reaches the cluster’s login/head node over SSH instead.</p>
+<p>Assumes key-based, passwordless auth is already set up for <code class="docutils literal notranslate"><span class="pre">host</span></code>
+(e.g. via an <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code> alias), the same way a user would run
+<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">&lt;host&gt;</span> <span class="pre">sbatch</span> <span class="pre">...</span></code> by hand.</p>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.status">
+<span id="seamm-slurm-status-module"></span><h2>seamm_slurm.status module<a class="headerlink" href="#module-seamm_slurm.status" title="Link to this heading">#</a></h2>
+<p>Classification of SLURM job states into a small, stable vocabulary.</p>
+<p>Deliberately independent of SEAMM’s own job-status vocabulary
+(<code class="docutils literal notranslate"><span class="pre">submitted</span></code>/<code class="docutils literal notranslate"><span class="pre">running</span></code>/<code class="docutils literal notranslate"><span class="pre">finished</span></code>/… in <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s
+datastore) – mapping SLURM states to SEAMM’s is the caller’s job, not this
+library’s, so this stays reusable outside SEAMM’s specific datastore.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.status.</span></span><span class="sig-name descname"><span class="pre">JobStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exit_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/status.html#JobStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.status.JobStatus" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The status of one SLURM job, as last polled.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.category">
+<span class="sig-name descname"><span class="pre">category</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.category" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.exit_code">
+<span class="sig-name descname"><span class="pre">exit_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.exit_code" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.is_terminal">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_terminal</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.is_terminal" title="Link to this definition">#</a></dt>
+<dd><p>Whether this job has finished (successfully or not) and is no
+longer pending or running.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.job_id">
+<span class="sig-name descname"><span class="pre">job_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.job_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.raw" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.reason">
+<span class="sig-name descname"><span class="pre">reason</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.reason" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.status.JobStatus.state">
+<span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.status.JobStatus.state" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="seamm_slurm.status.classify">
+<span class="sig-prename descclassname"><span class="pre">seamm_slurm.status.</span></span><span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/status.html#classify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.status.classify" title="Link to this definition">#</a></dt>
+<dd><p>Classify a raw SLURM state string into one of this library’s
+categories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_state</strong> (<em>str</em>) – A SLURM job state, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;RUNNING&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;COMPLETED&quot;</span></code>, or (as
+<code class="docutils literal notranslate"><span class="pre">sacct</span></code> sometimes reports for a cancelled job) <code class="docutils literal notranslate"><span class="pre">&quot;CANCELLED</span> <span class="pre">by</span>
+<span class="pre">1234&quot;</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One of <code class="docutils literal notranslate"><span class="pre">&quot;pending&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;running&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;completed&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;cancelled&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;failed&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;unknown&quot;</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-seamm_slurm" title="Link to this heading">#</a></h2>
+<p>seamm_slurm: a SLURM CLI backend (submit/poll/cancel) for SEAMM.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="modules.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">seamm_slurm</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../developer_guide/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Developer Documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.backend">seamm_slurm.backend module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmBackend"><code class="docutils literal notranslate"><span class="pre">SlurmBackend</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmBackend.cancel"><code class="docutils literal notranslate"><span class="pre">SlurmBackend.cancel()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmBackend.poll_many"><code class="docutils literal notranslate"><span class="pre">SlurmBackend.poll_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmBackend.submit"><code class="docutils literal notranslate"><span class="pre">SlurmBackend.submit()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmError"><code class="docutils literal notranslate"><span class="pre">SlurmError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.backend.SlurmSubmitError"><code class="docutils literal notranslate"><span class="pre">SlurmSubmitError</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.config">seamm_slurm.config module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.FieldLimits"><code class="docutils literal notranslate"><span class="pre">FieldLimits</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.FieldLimits.choices"><code class="docutils literal notranslate"><span class="pre">FieldLimits.choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.FieldLimits.maximum"><code class="docutils literal notranslate"><span class="pre">FieldLimits.maximum</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.FieldLimits.minimum"><code class="docutils literal notranslate"><span class="pre">FieldLimits.minimum</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection"><code class="docutils literal notranslate"><span class="pre">SlurmSection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.build_backend"><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.directives"><code class="docutils literal notranslate"><span class="pre">SlurmSection.directives</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.host"><code class="docutils literal notranslate"><span class="pre">SlurmSection.host</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.limits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.limits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.max_concurrent_jobs"><code class="docutils literal notranslate"><span class="pre">SlurmSection.max_concurrent_jobs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.max_resubmits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.max_resubmits</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.merge_overrides"><code class="docutils literal notranslate"><span class="pre">SlurmSection.merge_overrides()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.name"><code class="docutils literal notranslate"><span class="pre">SlurmSection.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.transport"><code class="docutils literal notranslate"><span class="pre">SlurmSection.transport</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.load_slurm_config"><code class="docutils literal notranslate"><span class="pre">load_slurm_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.local">seamm_slurm.local module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.local.LocalSlurm"><code class="docutils literal notranslate"><span class="pre">LocalSlurm</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.script">seamm_slurm.script module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.script.build_script"><code class="docutils literal notranslate"><span class="pre">build_script()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.ssh">seamm_slurm.ssh module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.ssh.SshSlurm"><code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.status">seamm_slurm.status module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus"><code class="docutils literal notranslate"><span class="pre">JobStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.category"><code class="docutils literal notranslate"><span class="pre">JobStatus.category</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.exit_code"><code class="docutils literal notranslate"><span class="pre">JobStatus.exit_code</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.is_terminal"><code class="docutils literal notranslate"><span class="pre">JobStatus.is_terminal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.job_id"><code class="docutils literal notranslate"><span class="pre">JobStatus.job_id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.raw"><code class="docutils literal notranslate"><span class="pre">JobStatus.raw</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.reason"><code class="docutils literal notranslate"><span class="pre">JobStatus.reason</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.JobStatus.state"><code class="docutils literal notranslate"><span class="pre">JobStatus.state</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.status.classify"><code class="docutils literal notranslate"><span class="pre">classify()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/seamm_slurm.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Paul Saxe. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

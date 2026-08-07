@@ -1,0 +1,61 @@
+seamm\_slurm package
+====================
+
+Submodules
+----------
+
+seamm\_slurm.backend module
+---------------------------
+
+.. automodule:: seamm_slurm.backend
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+seamm\_slurm.config module
+--------------------------
+
+.. automodule:: seamm_slurm.config
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+seamm\_slurm.local module
+-------------------------
+
+.. automodule:: seamm_slurm.local
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+seamm\_slurm.script module
+--------------------------
+
+.. automodule:: seamm_slurm.script
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+seamm\_slurm.ssh module
+-----------------------
+
+.. automodule:: seamm_slurm.ssh
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+seamm\_slurm.status module
+--------------------------
+
+.. automodule:: seamm_slurm.status
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: seamm_slurm
+   :members:
+   :show-inheritance:
+   :undoc-members:
