@@ -6,5 +6,6 @@ from .backend import SlurmBackend, SlurmError, SlurmSubmitError  # noqa: F401
 from .config import FieldLimits, SlurmSection, load_slurm_config  # noqa: F401
 from .local import LocalSlurm  # noqa: F401
 from .ssh import SshSlurm  # noqa: F401
+from .stage import JobStager, LocalStager, RsyncStager, StageError  # noqa: F401
 from .status import JobStatus, classify  # noqa: F401
 from ._version import __version__  # noqa: F401

@@ -143,6 +143,71 @@ def test_build_backend_unknown_transport_raises():
         section.build_backend()
 
 
+def test_build_stager_local():
+    section = SlurmSection(name="x", transport="local", host=None)
+    stager = section.build_stager()
+    assert isinstance(stager, seamm_slurm.LocalStager)
+
+
+def test_build_stager_ssh():
+    section = SlurmSection(name="x", transport="ssh", host="molssi10")
+    stager = section.build_stager()
+    assert isinstance(stager, seamm_slurm.RsyncStager)
+    assert stager.host == "molssi10"
+
+
+def test_build_stager_ssh_without_host_raises():
+    section = SlurmSection(name="x", transport="ssh", host=None)
+    with pytest.raises(RuntimeError, match="no host"):
+        section.build_stager()
+
+
+def test_build_stager_unknown_transport_raises():
+    section = SlurmSection(name="x", transport="pbs", host=None)
+    with pytest.raises(RuntimeError, match="unknown transport"):
+        section.build_stager()
+
+
+def test_remote_root_and_conda_env_parsed_from_ini(tmp_path):
+    (tmp_path / "Mac.ini").write_text(
+        "[molssi10]\n"
+        "transport = ssh\n"
+        "host = molssi10\n"
+        "remote_root = /home/psaxe/seamm_scratch\n"
+        "remote_conda_env = seamm\n"
+    )
+    section = load_slurm_config(tmp_path, "Mac")
+    assert section.remote_root == "/home/psaxe/seamm_scratch"
+    assert section.remote_conda_env == "seamm"
+    # Neither is a SLURM directive.
+    assert "remote_root" not in section.directives
+    assert "remote_conda_env" not in section.directives
+
+
+def test_remote_root_and_conda_env_default_to_none(tmp_path):
+    (tmp_path / "molssi10.ini").write_text("[molssi10]\ntransport = local\n")
+    section = load_slurm_config(tmp_path, "molssi10")
+    assert section.remote_root is None
+    assert section.remote_conda_env is None
+    assert section.remote_run_from_jobserver is None
+
+
+def test_remote_run_from_jobserver_parsed_from_ini(tmp_path):
+    (tmp_path / "Mac.ini").write_text(
+        "[molssi10]\n"
+        "transport = ssh\n"
+        "host = molssi10\n"
+        "remote_run_from_jobserver = "
+        "/home/psaxe/miniconda3/envs/seamm/bin/run_from_jobserver\n"
+    )
+    section = load_slurm_config(tmp_path, "Mac")
+    assert (
+        section.remote_run_from_jobserver
+        == "/home/psaxe/miniconda3/envs/seamm/bin/run_from_jobserver"
+    )
+    assert "remote_run_from_jobserver" not in section.directives
+
+
 # ---- [<section>.limits] parsing ------------------------------------------
 
 
