@@ -333,6 +333,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.script.build_script">build_script() (in module seamm_slurm.script)</a>
 </li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.config.SlurmSection.build_stager">build_stager() (seamm_slurm.config.SlurmSection method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -399,6 +401,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.JobStager">JobStager (class in seamm_slurm.stage)</a>
+</li>
       <li><a href="api/seamm_slurm.html#seamm_slurm.status.JobStatus">JobStatus (class in seamm_slurm.status)</a>
 </li>
   </ul></td>
@@ -409,11 +413,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.config.SlurmSection.limits">limits (seamm_slurm.config.SlurmSection attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.config.load_slurm_config">load_slurm_config() (in module seamm_slurm.config)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.local.LocalSlurm">LocalSlurm (class in seamm_slurm.local)</a>
+</li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.LocalStager">LocalStager (class in seamm_slurm.stage)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -447,6 +453,8 @@
 </li>
         <li><a href="api/seamm_slurm.html#module-seamm_slurm.ssh">seamm_slurm.ssh</a>
 </li>
+        <li><a href="api/seamm_slurm.html#module-seamm_slurm.stage">seamm_slurm.stage</a>
+</li>
         <li><a href="api/seamm_slurm.html#module-seamm_slurm.status">seamm_slurm.status</a>
 </li>
       </ul></li>
@@ -474,9 +482,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.status.JobStatus.raw">raw (seamm_slurm.status.JobStatus attribute)</a>
 </li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.status.JobStatus.reason">reason (seamm_slurm.status.JobStatus attribute)</a>
+</li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_conda_env">remote_conda_env (seamm_slurm.config.SlurmSection attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/seamm_slurm.html#seamm_slurm.status.JobStatus.reason">reason (seamm_slurm.status.JobStatus attribute)</a>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_root">remote_root (seamm_slurm.config.SlurmSection attribute)</a>
+</li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_run_from_jobserver">remote_run_from_jobserver (seamm_slurm.config.SlurmSection attribute)</a>
+</li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.RsyncStager">RsyncStager (class in seamm_slurm.stage)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -519,13 +535,18 @@
         <li><a href="api/seamm_slurm.html#module-seamm_slurm.script">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     seamm_slurm.ssh
 
       <ul>
         <li><a href="api/seamm_slurm.html#module-seamm_slurm.ssh">module</a>
+</li>
+      </ul></li>
+      <li>
+    seamm_slurm.stage
+
+      <ul>
+        <li><a href="api/seamm_slurm.html#module-seamm_slurm.stage">module</a>
 </li>
       </ul></li>
       <li>
@@ -535,6 +556,8 @@
         <li><a href="api/seamm_slurm.html#module-seamm_slurm.status">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/seamm_slurm.html#seamm_slurm.backend.SlurmBackend">SlurmBackend (class in seamm_slurm.backend)</a>
 </li>
       <li><a href="api/seamm_slurm.html#seamm_slurm.backend.SlurmError">SlurmError</a>
@@ -544,6 +567,24 @@
       <li><a href="api/seamm_slurm.html#seamm_slurm.backend.SlurmSubmitError">SlurmSubmitError</a>
 </li>
       <li><a href="api/seamm_slurm.html#seamm_slurm.ssh.SshSlurm">SshSlurm (class in seamm_slurm.ssh)</a>
+</li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.JobStager.stage_in">stage_in() (seamm_slurm.stage.JobStager method)</a>
+
+      <ul>
+        <li><a href="api/seamm_slurm.html#seamm_slurm.stage.LocalStager.stage_in">(seamm_slurm.stage.LocalStager method)</a>
+</li>
+        <li><a href="api/seamm_slurm.html#seamm_slurm.stage.RsyncStager.stage_in">(seamm_slurm.stage.RsyncStager method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.JobStager.stage_out">stage_out() (seamm_slurm.stage.JobStager method)</a>
+
+      <ul>
+        <li><a href="api/seamm_slurm.html#seamm_slurm.stage.LocalStager.stage_out">(seamm_slurm.stage.LocalStager method)</a>
+</li>
+        <li><a href="api/seamm_slurm.html#seamm_slurm.stage.RsyncStager.stage_out">(seamm_slurm.stage.RsyncStager method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/seamm_slurm.html#seamm_slurm.stage.StageError">StageError</a>
 </li>
       <li><a href="api/seamm_slurm.html#seamm_slurm.status.JobStatus.state">state (seamm_slurm.status.JobStatus attribute)</a>
 </li>

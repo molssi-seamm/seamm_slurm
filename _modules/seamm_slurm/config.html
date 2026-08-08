@@ -358,6 +358,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalSlurm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.ssh</span><span class="w"> </span><span class="kn">import</span> <span class="n">SshSlurm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.stage</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalStager</span><span class="p">,</span> <span class="n">RsyncStager</span>
 
 <span class="c1"># Section keys that describe JobServer-side behavior rather than a SLURM</span>
 <span class="c1"># submission directive -- not forwarded to seamm_slurm.script.build_script.</span>
@@ -368,6 +369,9 @@
     <span class="s2">&quot;max_concurrent_jobs&quot;</span><span class="p">,</span>
     <span class="s2">&quot;max_resubmits&quot;</span><span class="p">,</span>
     <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;remote_root&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;remote_conda_env&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;remote_run_from_jobserver&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -400,6 +404,20 @@
     <span class="n">max_concurrent_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">max_resubmits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">limits</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>  <span class="c1"># {directive: FieldLimits}</span>
+    <span class="c1"># Only meaningful for transport=ssh, where the JobServer shares no</span>
+    <span class="c1"># filesystem with the SLURM submit host (see RsyncStager): the base</span>
+    <span class="c1"># directory under which each job&#39;s remote scratch tree is created, and</span>
+    <span class="c1"># how to invoke run_from_jobserver on the remote host, since its own</span>
+    <span class="c1"># local install can&#39;t be reused there (that&#39;s a Mac-local path -- see</span>
+    <span class="c1"># seamm_jobserver&#39;s _build_cmd()). Either remote_run_from_jobserver</span>
+    <span class="c1"># (an explicit absolute path, preferred -- mirrors how local mode</span>
+    <span class="c1"># already invokes it, no shell activation needed) or remote_conda_env</span>
+    <span class="c1"># (falls back to ``conda run -n &lt;env&gt; run_from_jobserver``, for when</span>
+    <span class="c1"># the absolute path isn&#39;t known/stable) must be set for transport=ssh;</span>
+    <span class="c1"># neither is meaningful for transport=local.</span>
+    <span class="n">remote_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">remote_conda_env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">remote_run_from_jobserver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SlurmSection.build_backend">
 <a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.SlurmSection.build_backend">[docs]</a>
@@ -413,6 +431,27 @@
                     <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has transport=ssh but no &quot;</span> <span class="s2">&quot;host set&quot;</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">SshSlurm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has unknown transport &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="si">}</span><span class="s2">&#39; (expected &#39;local&#39; or &#39;ssh&#39;)&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlurmSection.build_stager">
+<a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.SlurmSection.build_stager">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_stager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct the ``seamm_slurm`` stager this section describes --</span>
+<span class="sd">        paired with the transport the same way ``build_backend()`` picks a</span>
+<span class="sd">        backend.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LocalStager</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;ssh&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has transport=ssh but no &quot;</span> <span class="s2">&quot;host set&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">RsyncStager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has unknown transport &quot;</span>
@@ -536,6 +575,9 @@
     <span class="n">host</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
     <span class="n">max_concurrent_jobs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_concurrent_jobs&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
     <span class="n">max_resubmits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_resubmits&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">remote_root</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_root&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="n">remote_conda_env</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_conda_env&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="n">remote_run_from_jobserver</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_run_from_jobserver&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
 
     <span class="n">directives</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NON_DIRECTIVE_KEYS</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
@@ -551,6 +593,9 @@
         <span class="n">max_concurrent_jobs</span><span class="o">=</span><span class="n">max_concurrent_jobs</span><span class="p">,</span>
         <span class="n">max_resubmits</span><span class="o">=</span><span class="n">max_resubmits</span><span class="p">,</span>
         <span class="n">limits</span><span class="o">=</span><span class="n">limits</span><span class="p">,</span>
+        <span class="n">remote_root</span><span class="o">=</span><span class="n">remote_root</span><span class="p">,</span>
+        <span class="n">remote_conda_env</span><span class="o">=</span><span class="n">remote_conda_env</span><span class="p">,</span>
+        <span class="n">remote_run_from_jobserver</span><span class="o">=</span><span class="n">remote_run_from_jobserver</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

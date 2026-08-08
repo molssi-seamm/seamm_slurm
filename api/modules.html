@@ -384,6 +384,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection"><code class="docutils literal notranslate"><span class="pre">SlurmSection</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.build_backend"><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_backend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.build_stager"><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_stager()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.directives"><code class="docutils literal notranslate"><span class="pre">SlurmSection.directives</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.host"><code class="docutils literal notranslate"><span class="pre">SlurmSection.host</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.limits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.limits</span></code></a></li>
@@ -391,6 +392,9 @@
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.max_resubmits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.max_resubmits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.merge_overrides"><code class="docutils literal notranslate"><span class="pre">SlurmSection.merge_overrides()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.name"><code class="docutils literal notranslate"><span class="pre">SlurmSection.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_conda_env"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_conda_env</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_root"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_run_from_jobserver"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_run_from_jobserver</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.config.SlurmSection.transport"><code class="docutils literal notranslate"><span class="pre">SlurmSection.transport</span></code></a></li>
 </ul>
 </li>
@@ -407,6 +411,25 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="seamm_slurm.html#module-seamm_slurm.ssh">seamm_slurm.ssh module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.ssh.SshSlurm"><code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="seamm_slurm.html#module-seamm_slurm.stage">seamm_slurm.stage module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.JobStager"><code class="docutils literal notranslate"><span class="pre">JobStager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.JobStager.stage_in"><code class="docutils literal notranslate"><span class="pre">JobStager.stage_in()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.JobStager.stage_out"><code class="docutils literal notranslate"><span class="pre">JobStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.LocalStager"><code class="docutils literal notranslate"><span class="pre">LocalStager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.LocalStager.stage_in"><code class="docutils literal notranslate"><span class="pre">LocalStager.stage_in()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.LocalStager.stage_out"><code class="docutils literal notranslate"><span class="pre">LocalStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.RsyncStager"><code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.RsyncStager.stage_in"><code class="docutils literal notranslate"><span class="pre">RsyncStager.stage_in()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.RsyncStager.stage_out"><code class="docutils literal notranslate"><span class="pre">RsyncStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="seamm_slurm.html#seamm_slurm.stage.StageError"><code class="docutils literal notranslate"><span class="pre">StageError</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="seamm_slurm.html#module-seamm_slurm.status">seamm_slurm.status module</a><ul>

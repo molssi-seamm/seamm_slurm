@@ -396,6 +396,32 @@ only speaks SLURM’s.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">statuses</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>  <span class="c1"># &quot;pending&quot; | &quot;running&quot; | &quot;completed&quot; | ...</span>
 </pre></div>
 </div>
+</section>
+<section id="staging-files-when-there-s-no-shared-filesystem">
+<h2>Staging files when there’s no shared filesystem<a class="headerlink" href="#staging-files-when-there-s-no-shared-filesystem" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code> above only runs SLURM CLI commands remotely – it assumes the
+job’s own working directory is already visible to the remote host (e.g. a
+shared/NFS filesystem, or the caller runs on a login node). If it is not –
+a laptop reaching a cluster it shares no filesystem with, for instance –
+pair it with a stager, mirroring the transport with <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code> (a
+no-op, for the shared-filesystem case above) or <code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">seamm_slurm</span><span class="w"> </span><span class="kn">import</span> <span class="n">RsyncStager</span>
+
+<span class="n">stager</span> <span class="o">=</span> <span class="n">RsyncStager</span><span class="p">(</span><span class="s2">&quot;molssi10&quot;</span><span class="p">)</span>
+<span class="c1"># Pushes local_wdir to molssi10 over rsync -e ssh, mkdir -p first.</span>
+<span class="c1"># Use the returned path for the sbatch script&#39;s chdir directive and</span>
+<span class="c1"># for any command line built for the remote host, not local_wdir.</span>
+<span class="n">remote_wdir</span> <span class="o">=</span> <span class="n">stager</span><span class="o">.</span><span class="n">stage_in</span><span class="p">(</span><span class="n">local_wdir</span><span class="p">,</span> <span class="n">remote_wdir</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="c1"># After SLURM reports the job terminal, pull results back:</span>
+<span class="n">stager</span><span class="o">.</span><span class="n">stage_out</span><span class="p">(</span><span class="n">remote_wdir</span><span class="p">,</span> <span class="n">local_wdir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_stager()</span></code> picks the right one automatically from a
+<code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> section’s <code class="docutils literal notranslate"><span class="pre">transport</span></code> key, the same way
+<code class="docutils literal notranslate"><span class="pre">build_backend()</span></code> picks the transport – see <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s user
+guide for the full ini format, including <code class="docutils literal notranslate"><span class="pre">remote_root</span></code> and
+<code class="docutils literal notranslate"><span class="pre">remote_run_from_jobserver</span></code>/<code class="docutils literal notranslate"><span class="pre">remote_conda_env</span></code>.</p>
 <p>See the design doc under <a class="reference internal" href="developer_guide/campaigns/2026-08-06/index.html"><span class="doc">2026-08-06 – Initial scaffold</span></a>
 for the full rationale, and the workspace-root
 <code class="docutils literal notranslate"><span class="pre">~/Work/SEAMM/jobserver-slurm-plan.md</span></code> living plan for how this fits into
@@ -452,6 +478,7 @@ the larger <code class="docutils literal notranslate"><span class="pre">seamm_jo
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing">Installing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-files-when-there-s-no-shared-filesystem">Staging files when there’s no shared filesystem</a></li>
 </ul>
   </nav></div>
 

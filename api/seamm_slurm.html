@@ -484,13 +484,21 @@ constraint at all, meaning “any value SLURM itself accepts.”</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.config.</span></span><span class="sig-name descname"><span class="pre">SlurmSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrent_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resubmits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.config.</span></span><span class="sig-name descname"><span class="pre">SlurmSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrent_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_resubmits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_conda_env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_run_from_jobserver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>One cluster/queue target from a <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> file.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.build_backend">
 <span class="sig-name descname"><span class="pre">build_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection.build_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection.build_backend" title="Link to this definition">#</a></dt>
 <dd><p>Construct the <code class="docutils literal notranslate"><span class="pre">seamm_slurm</span></code> backend this section describes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.build_stager">
+<span class="sig-name descname"><span class="pre">build_stager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/config.html#SlurmSection.build_stager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.config.SlurmSection.build_stager" title="Link to this definition">#</a></dt>
+<dd><p>Construct the <code class="docutils literal notranslate"><span class="pre">seamm_slurm</span></code> stager this section describes –
+paired with the transport the same way <code class="docutils literal notranslate"><span class="pre">build_backend()</span></code> picks a
+backend.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -550,6 +558,21 @@ validated overrides applied), ready for
 <dl class="py attribute">
 <dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.name">
 <span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.remote_conda_env">
+<span class="sig-name descname"><span class="pre">remote_conda_env</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.remote_conda_env" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.remote_root">
+<span class="sig-name descname"><span class="pre">remote_root</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.remote_root" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="seamm_slurm.config.SlurmSection.remote_run_from_jobserver">
+<span class="sig-name descname"><span class="pre">remote_run_from_jobserver</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#seamm_slurm.config.SlurmSection.remote_run_from_jobserver" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -653,6 +676,121 @@ submit host, and reaches the cluster’s login/head node over SSH instead.</p>
 <p>Assumes key-based, passwordless auth is already set up for <code class="docutils literal notranslate"><span class="pre">host</span></code>
 (e.g. via an <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code> alias), the same way a user would run
 <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">&lt;host&gt;</span> <span class="pre">sbatch</span> <span class="pre">...</span></code> by hand.</p>
+</dd></dl>
+
+</section>
+<section id="module-seamm_slurm.stage">
+<span id="seamm-slurm-stage-module"></span><h2>seamm_slurm.stage module<a class="headerlink" href="#module-seamm_slurm.stage" title="Link to this heading">#</a></h2>
+<p>Stage a job’s working directory to/from a remote host.</p>
+<p>Needed when a JobServer’s <code class="docutils literal notranslate"><span class="pre">transport</span> <span class="pre">=</span> <span class="pre">ssh</span></code> points at a host that shares
+no filesystem with the JobServer itself – unlike every case validated so
+far, where the JobServer runs on (or already shares storage with) the
+SLURM submit host. Paired with the transport the same way
+<code class="docutils literal notranslate"><span class="pre">LocalSlurm</span></code>/<code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code> are: <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code> for the shared-storage
+case (a no-op) and <code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code> for the no-shared-filesystem case.</p>
+<p>Lives here, not in <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>, for the same reason <code class="docutils literal notranslate"><span class="pre">config.py</span></code>
+does: a lightweight consumer should be able to use the transport without
+pulling in the rest of <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code> (psutil, GUI code, job-running
+machinery). See <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s <code class="docutils literal notranslate"><span class="pre">docs/developer_guide/campaigns/</span>
+<span class="pre">2026-08-05/</span></code> (Phase 8) for the full design this implements.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.stage.JobStager">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.stage.</span></span><span class="sig-name descname"><span class="pre">JobStager</span></span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#JobStager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.JobStager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Moves a job’s working directory to/from wherever it actually needs
+to run.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.JobStager.stage_in">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stage_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#JobStager.stage_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.JobStager.stage_in" title="Link to this definition">#</a></dt>
+<dd><p>Make <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> ready to run the job, from <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code>.</p>
+<p>Returns the working directory the job should actually use (for the
+<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--chdir</span></code> directive, and for the job’s own command line)
+– <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> itself for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>, <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> for
+<code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.JobStager.stage_out">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stage_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#JobStager.stage_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.JobStager.stage_out" title="Link to this definition">#</a></dt>
+<dd><p>Pull a finished job’s files back, so <code class="docutils literal notranslate"><span class="pre">job_data.json</span></code> and the
+flowchart’s results land in <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> where the JobServer
+(and the dashboard) can see them. No-op for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.stage.LocalStager">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.stage.</span></span><span class="sig-name descname"><span class="pre">LocalStager</span></span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#LocalStager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.LocalStager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seamm_slurm.stage.JobStager" title="seamm_slurm.stage.JobStager"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobStager</span></code></a></p>
+<p>No-op: the JobServer already shares storage with the SLURM submit
+host (every case validated so far), so there’s nothing to move.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.LocalStager.stage_in">
+<span class="sig-name descname"><span class="pre">stage_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#LocalStager.stage_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.LocalStager.stage_in" title="Link to this definition">#</a></dt>
+<dd><p>Make <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> ready to run the job, from <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code>.</p>
+<p>Returns the working directory the job should actually use (for the
+<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--chdir</span></code> directive, and for the job’s own command line)
+– <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> itself for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>, <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> for
+<code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.LocalStager.stage_out">
+<span class="sig-name descname"><span class="pre">stage_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#LocalStager.stage_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.LocalStager.stage_out" title="Link to this definition">#</a></dt>
+<dd><p>Pull a finished job’s files back, so <code class="docutils literal notranslate"><span class="pre">job_data.json</span></code> and the
+flowchart’s results land in <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> where the JobServer
+(and the dashboard) can see them. No-op for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="seamm_slurm.stage.RsyncStager">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.stage.</span></span><span class="sig-name descname"><span class="pre">RsyncStager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssh_command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ssh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsync_command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rsync'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#RsyncStager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.RsyncStager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#seamm_slurm.stage.JobStager" title="seamm_slurm.stage.JobStager"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobStager</span></code></a></p>
+<p>Pushes/pulls a job’s working directory to/from a remote host with no
+shared filesystem, over <code class="docutils literal notranslate"><span class="pre">rsync</span> <span class="pre">-e</span> <span class="pre">ssh</span></code>. Assumes the same
+passwordless SSH access <code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code> does.</p>
+<p>A job’s working directory is already self-contained by the time a
+JobServer picks it up: <code class="docutils literal notranslate"><span class="pre">flowchart.flow</span></code>, the <code class="docutils literal notranslate"><span class="pre">job_data.json</span></code> stub,
+and a <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory holding every file the flowchart references
+– SEAMM’s existing <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">&quot;file&quot;</span></code> control-parameter mechanism
+(<code class="docutils literal notranslate"><span class="pre">seamm_dashboard_client.dashboard.Dashboard.submit()</span></code> +
+<code class="docutils literal notranslate"><span class="pre">safe_filename()</span></code>) already stages those into <code class="docutils literal notranslate"><span class="pre">data/</span></code> and rewrites
+the command line to <code class="docutils literal notranslate"><span class="pre">job:data/...</span></code> at submission time, before this
+ever runs. So staging is just “copy the whole directory,” not a
+general arbitrary-path resolver.</p>
+<p>Known limitation, not handled here: a <code class="docutils literal notranslate"><span class="pre">job://&lt;n&gt;/...</span></code> cross-job file
+reference (e.g. a restart checkpoint from another job) points outside
+the referencing job’s own working directory, so it isn’t staged –
+such a reference in a job routed through this stager will fail to
+resolve on the remote host.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.RsyncStager.stage_in">
+<span class="sig-name descname"><span class="pre">stage_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#RsyncStager.stage_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.RsyncStager.stage_in" title="Link to this definition">#</a></dt>
+<dd><p>Make <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> ready to run the job, from <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code>.</p>
+<p>Returns the working directory the job should actually use (for the
+<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--chdir</span></code> directive, and for the job’s own command line)
+– <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> itself for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>, <code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> for
+<code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seamm_slurm.stage.RsyncStager.stage_out">
+<span class="sig-name descname"><span class="pre">stage_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_wdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_wdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#RsyncStager.stage_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.RsyncStager.stage_out" title="Link to this definition">#</a></dt>
+<dd><p>Pull a finished job’s files back, so <code class="docutils literal notranslate"><span class="pre">job_data.json</span></code> and the
+flowchart’s results land in <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> where the JobServer
+(and the dashboard) can see them. No-op for <code class="docutils literal notranslate"><span class="pre">LocalStager</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="seamm_slurm.stage.StageError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">seamm_slurm.stage.</span></span><span class="sig-name descname"><span class="pre">StageError</span></span><a class="reference internal" href="../_modules/seamm_slurm/stage.html#StageError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seamm_slurm.stage.StageError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Raised when staging a job’s files to or from a remote host fails.</p>
 </dd></dl>
 
 </section>
@@ -803,6 +941,7 @@ categories.</p>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection"><code class="docutils literal notranslate"><span class="pre">SlurmSection</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.build_backend"><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_backend()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.build_stager"><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_stager()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.directives"><code class="docutils literal notranslate"><span class="pre">SlurmSection.directives</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.host"><code class="docutils literal notranslate"><span class="pre">SlurmSection.host</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.limits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.limits</span></code></a></li>
@@ -810,6 +949,9 @@ categories.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.max_resubmits"><code class="docutils literal notranslate"><span class="pre">SlurmSection.max_resubmits</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.merge_overrides"><code class="docutils literal notranslate"><span class="pre">SlurmSection.merge_overrides()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.name"><code class="docutils literal notranslate"><span class="pre">SlurmSection.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.remote_conda_env"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_conda_env</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.remote_root"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_root</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.remote_run_from_jobserver"><code class="docutils literal notranslate"><span class="pre">SlurmSection.remote_run_from_jobserver</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.config.SlurmSection.transport"><code class="docutils literal notranslate"><span class="pre">SlurmSection.transport</span></code></a></li>
 </ul>
 </li>
@@ -826,6 +968,25 @@ categories.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.ssh">seamm_slurm.ssh module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.ssh.SshSlurm"><code class="docutils literal notranslate"><span class="pre">SshSlurm</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.stage">seamm_slurm.stage module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.JobStager"><code class="docutils literal notranslate"><span class="pre">JobStager</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.JobStager.stage_in"><code class="docutils literal notranslate"><span class="pre">JobStager.stage_in()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.JobStager.stage_out"><code class="docutils literal notranslate"><span class="pre">JobStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.LocalStager"><code class="docutils literal notranslate"><span class="pre">LocalStager</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.LocalStager.stage_in"><code class="docutils literal notranslate"><span class="pre">LocalStager.stage_in()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.LocalStager.stage_out"><code class="docutils literal notranslate"><span class="pre">LocalStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.RsyncStager"><code class="docutils literal notranslate"><span class="pre">RsyncStager</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.RsyncStager.stage_in"><code class="docutils literal notranslate"><span class="pre">RsyncStager.stage_in()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.RsyncStager.stage_out"><code class="docutils literal notranslate"><span class="pre">RsyncStager.stage_out()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seamm_slurm.stage.StageError"><code class="docutils literal notranslate"><span class="pre">StageError</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-seamm_slurm.status">seamm_slurm.status module</a><ul class="nav section-nav flex-column">

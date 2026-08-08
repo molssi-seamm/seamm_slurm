@@ -44,6 +44,14 @@ seamm\_slurm.ssh module
    :show-inheritance:
    :undoc-members:
 
+seamm\_slurm.stage module
+-------------------------
+
+.. automodule:: seamm_slurm.stage
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 seamm\_slurm.status module
 --------------------------
 
