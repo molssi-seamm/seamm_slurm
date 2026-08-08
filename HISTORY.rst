@@ -2,6 +2,23 @@
 History
 =======
 
+2026.8.8 -- Stage a job's files to/from a remote host with no shared filesystem
+    * New ``LocalStager``/``RsyncStager`` (``seamm_slurm.stage``), paired with
+      the existing ``LocalSlurm``/``SshSlurm`` transports: lets a JobServer
+      that shares no filesystem with the SLURM submit host (e.g. a laptop
+      reaching a cluster over ssh) push a job's working directory there
+      before submission and pull results back after, over
+      ``rsync -e ssh``. ``LocalStager`` is a no-op for the existing
+      shared-storage case.
+    * ``SlurmSection`` gained ``build_stager()`` (alongside
+      ``build_backend()``) and three new optional ini keys:
+      ``remote_root`` (base directory for a job's remote scratch tree),
+      ``remote_run_from_jobserver`` (explicit absolute path to invoke on
+      the remote host, preferred), and ``remote_conda_env`` (falls back
+      to ``conda run -n <env>`` when the absolute path isn't known/stable).
+    * Live-validated: a real job staged to a remote cluster over actual
+      ssh/rsync, ran there for real, and staged back correctly.
+
 2026.8.6.1 -- Add seamm_slurm.config: ini parsing, moved from seamm_jobserver
     * ``SlurmSection``/``load_slurm_config`` (previously
       ``seamm_jobserver.slurm_config``) now live here, so any

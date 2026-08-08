@@ -49,6 +49,35 @@ Basic usage
     statuses = backend.poll_many([job_id])
     print(statuses[job_id].category)  # "pending" | "running" | "completed" | ...
 
+Staging files when there's no shared filesystem
+-------------------------------------------------
+
+``SshSlurm`` above only runs SLURM CLI commands remotely -- it assumes the
+job's own working directory is already visible to the remote host (e.g. a
+shared/NFS filesystem, or the caller runs on a login node). If it is not --
+a laptop reaching a cluster it shares no filesystem with, for instance --
+pair it with a stager, mirroring the transport with ``LocalStager`` (a
+no-op, for the shared-filesystem case above) or ``RsyncStager``:
+
+.. code-block:: python
+
+    from seamm_slurm import RsyncStager
+
+    stager = RsyncStager("molssi10")
+    # Pushes local_wdir to molssi10 over rsync -e ssh, mkdir -p first.
+    # Use the returned path for the sbatch script's chdir directive and
+    # for any command line built for the remote host, not local_wdir.
+    remote_wdir = stager.stage_in(local_wdir, remote_wdir)
+    ...
+    # After SLURM reports the job terminal, pull results back:
+    stager.stage_out(remote_wdir, local_wdir)
+
+``SlurmSection.build_stager()`` picks the right one automatically from a
+``<root>/<jobserver-name>.ini`` section's ``transport`` key, the same way
+``build_backend()`` picks the transport -- see ``seamm_jobserver``'s user
+guide for the full ini format, including ``remote_root`` and
+``remote_run_from_jobserver``/``remote_conda_env``.
+
 See the design doc under :doc:`developer_guide/campaigns/2026-08-06/index`
 for the full rationale, and the workspace-root
 ``~/Work/SEAMM/jobserver-slurm-plan.md`` living plan for how this fits into

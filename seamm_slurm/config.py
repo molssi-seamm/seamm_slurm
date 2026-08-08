@@ -25,6 +25,7 @@ from typing import Optional
 
 from .local import LocalSlurm
 from .ssh import SshSlurm
+from .stage import LocalStager, RsyncStager
 
 # Section keys that describe JobServer-side behavior rather than a SLURM
 # submission directive -- not forwarded to seamm_slurm.script.build_script.
@@ -35,6 +36,9 @@ _NON_DIRECTIVE_KEYS = {
     "max_concurrent_jobs",
     "max_resubmits",
     "default",
+    "remote_root",
+    "remote_conda_env",
+    "remote_run_from_jobserver",
 }
 
 
@@ -62,6 +66,20 @@ class SlurmSection:
     max_concurrent_jobs: int = 20
     max_resubmits: int = 3
     limits: dict = field(default_factory=dict)  # {directive: FieldLimits}
+    # Only meaningful for transport=ssh, where the JobServer shares no
+    # filesystem with the SLURM submit host (see RsyncStager): the base
+    # directory under which each job's remote scratch tree is created, and
+    # how to invoke run_from_jobserver on the remote host, since its own
+    # local install can't be reused there (that's a Mac-local path -- see
+    # seamm_jobserver's _build_cmd()). Either remote_run_from_jobserver
+    # (an explicit absolute path, preferred -- mirrors how local mode
+    # already invokes it, no shell activation needed) or remote_conda_env
+    # (falls back to ``conda run -n <env> run_from_jobserver``, for when
+    # the absolute path isn't known/stable) must be set for transport=ssh;
+    # neither is meaningful for transport=local.
+    remote_root: Optional[str] = None
+    remote_conda_env: Optional[str] = None
+    remote_run_from_jobserver: Optional[str] = None
 
     def build_backend(self):
         """Construct the ``seamm_slurm`` backend this section describes."""
@@ -73,6 +91,24 @@ class SlurmSection:
                     f"SLURM section '{self.name}' has transport=ssh but no " "host set"
                 )
             return SshSlurm(self.host)
+        else:
+            raise RuntimeError(
+                f"SLURM section '{self.name}' has unknown transport "
+                f"'{self.transport}' (expected 'local' or 'ssh')"
+            )
+
+    def build_stager(self):
+        """Construct the ``seamm_slurm`` stager this section describes --
+        paired with the transport the same way ``build_backend()`` picks a
+        backend."""
+        if self.transport == "local":
+            return LocalStager()
+        elif self.transport == "ssh":
+            if not self.host:
+                raise RuntimeError(
+                    f"SLURM section '{self.name}' has transport=ssh but no " "host set"
+                )
+            return RsyncStager(self.host)
         else:
             raise RuntimeError(
                 f"SLURM section '{self.name}' has unknown transport "
@@ -189,6 +225,9 @@ def load_slurm_config(root, jobserver_name, section=None):
     host = items.get("host") or None
     max_concurrent_jobs = int(items.get("max_concurrent_jobs", 20))
     max_resubmits = int(items.get("max_resubmits", 3))
+    remote_root = items.get("remote_root") or None
+    remote_conda_env = items.get("remote_conda_env") or None
+    remote_run_from_jobserver = items.get("remote_run_from_jobserver") or None
 
     directives = {
         k: v for k, v in items.items() if k not in _NON_DIRECTIVE_KEYS and v != ""
@@ -204,6 +243,9 @@ def load_slurm_config(root, jobserver_name, section=None):
         max_concurrent_jobs=max_concurrent_jobs,
         max_resubmits=max_resubmits,
         limits=limits,
+        remote_root=remote_root,
+        remote_conda_env=remote_conda_env,
+        remote_run_from_jobserver=remote_run_from_jobserver,
     )
 
 
