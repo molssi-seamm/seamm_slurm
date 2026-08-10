@@ -427,6 +427,33 @@ for the full rationale, and the workspace-root
 <code class="docutils literal notranslate"><span class="pre">~/Work/SEAMM/jobserver-slurm-plan.md</span></code> living plan for how this fits into
 the larger <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code> SLURM integration.</p>
 </section>
+<section id="multiple-queues-per-config-file">
+<h2>Multiple queues per config file<a class="headerlink" href="#multiple-queues-per-config-file" title="Link to this heading">#</a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> file can describe more than one
+cluster/queue target, one section each. <code class="docutils literal notranslate"><span class="pre">load_slurm_config(root,</span>
+<span class="pre">jobserver_name)</span></code> resolves a <em>single</em> section (via that file’s
+<code class="docutils literal notranslate"><span class="pre">[DEFAULT]</span> <span class="pre">default</span> <span class="pre">=</span></code> key, or the sole section if there is only one);
+<code class="docutils literal notranslate"><span class="pre">list_sections(root,</span> <span class="pre">jobserver_name)</span></code> instead returns every section as a
+<code class="docutils literal notranslate"><span class="pre">{name:</span> <span class="pre">SlurmSection}</span></code> dict, for a caller that routes jobs across more
+than one queue or wants to advertise “what queues exist” (e.g. to a
+submission UI):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">seamm_slurm.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_sections</span>
+
+<span class="n">sections</span> <span class="o">=</span> <span class="n">list_sections</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;molssi10&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">section</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">section</span><span class="o">.</span><span class="n">transport</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A section’s <code class="docutils literal notranslate"><span class="pre">type</span></code> (default <code class="docutils literal notranslate"><span class="pre">&quot;slurm&quot;</span></code>) can also be <code class="docutils literal notranslate"><span class="pre">&quot;local&quot;</span></code> – no
+scheduler at all, for a queue that just means “run this as a plain local
+subprocess” rather than a submission target of its own.
+<code class="docutils literal notranslate"><span class="pre">build_backend()</span></code>/<code class="docutils literal notranslate"><span class="pre">build_stager()</span></code> raise clearly if called on a
+<code class="docutils literal notranslate"><span class="pre">type</span> <span class="pre">=</span> <span class="pre">local</span></code> section, since it has neither; a caller routes those jobs
+through its own local-subprocess path instead. See <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s
+design doc under <code class="docutils literal notranslate"><span class="pre">docs/developer_guide/campaigns/2026-08-10/</span></code> (multi-queue
+routing) for how this is used to let one JobServer instance route jobs to
+several queues – some local, some real SLURM clusters – at once.</p>
+</section>
 </section>
 
 
@@ -479,6 +506,7 @@ the larger <code class="docutils literal notranslate"><span class="pre">seamm_jo
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing">Installing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-files-when-there-s-no-shared-filesystem">Staging files when there’s no shared filesystem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-queues-per-config-file">Multiple queues per config file</a></li>
 </ul>
   </nav></div>
 

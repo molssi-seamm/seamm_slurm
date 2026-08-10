@@ -374,6 +374,15 @@
     <span class="s2">&quot;remote_run_from_jobserver&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="c1"># Recognized values for a section&#39;s &quot;type&quot; key. &quot;local&quot; means &quot;no scheduler</span>
+<span class="c1"># at all -- route jobs through the JobServer&#39;s existing local-subprocess</span>
+<span class="c1"># path,&quot; a uniform alternative to a &quot;slurm&quot; section rather than a submission</span>
+<span class="c1"># target of its own; see build_backend()/build_stager(). Not building a</span>
+<span class="c1"># multi-scheduler abstraction yet (the ini format&#39;s own comment already says</span>
+<span class="c1"># so) -- pbs/lsf/etc. are future values this leaves room for, not something</span>
+<span class="c1"># this campaign implements.</span>
+<span class="n">_VALID_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;slurm&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">}</span>
+
 
 <div class="viewcode-block" id="FieldLimits">
 <a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.FieldLimits">[docs]</a>
@@ -400,6 +409,7 @@
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">transport</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">host</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;slurm&quot;</span>
     <span class="n">directives</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
     <span class="n">max_concurrent_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">max_resubmits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
@@ -423,6 +433,12 @@
 <a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.SlurmSection.build_backend">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_backend</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct the ``seamm_slurm`` backend this section describes.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has type=local; it has no SLURM &quot;</span>
+                <span class="s2">&quot;backend to build -- route jobs for it through the &quot;</span>
+                <span class="s2">&quot;JobServer&#39;s existing local-subprocess path instead&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">LocalSlurm</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;ssh&quot;</span><span class="p">:</span>
@@ -444,6 +460,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct the ``seamm_slurm`` stager this section describes --</span>
 <span class="sd">        paired with the transport the same way ``build_backend()`` picks a</span>
 <span class="sd">        backend.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has type=local; it has no stager &quot;</span>
+                <span class="s2">&quot;to build -- route jobs for it through the JobServer&#39;s &quot;</span>
+                <span class="s2">&quot;existing local-subprocess path instead&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">LocalStager</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">==</span> <span class="s2">&quot;ssh&quot;</span><span class="p">:</span>
@@ -569,7 +591,63 @@
     <span class="k">if</span> <span class="n">section</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ini_path</span><span class="si">}</span><span class="s2"> has no section &#39;</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
+    <span class="k">return</span> <span class="n">_build_section</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">section</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="list_sections">
+<a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.list_sections">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_sections</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">jobserver_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load every routable cluster/queue section from</span>
+<span class="sd">    ``&lt;root&gt;/&lt;jobserver_name&gt;.ini``, not just the one ``load_slurm_config()``</span>
+<span class="sd">    resolves via ``default=``/single-section fallback.</span>
+
+<span class="sd">    For per-job routing (a job asks for a named queue) and for surfacing</span>
+<span class="sd">    &quot;what queues exist&quot; to a submission UI (e.g. ``seamm_webui``&#39;s</span>
+<span class="sd">    ``GET /api/queues``) -- see ``seamm_jobserver``&#39;s</span>
+<span class="sd">    ``docs/developer_guide/campaigns/2026-08-10/``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root : str or Path</span>
+<span class="sd">        The SEAMM root directory (e.g. ``~/SEAMM``).</span>
+<span class="sd">    jobserver_name : str</span>
+<span class="sd">        This JobServer instance&#39;s ``--name`` (default: hostname).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict(str, SlurmSection)</span>
+<span class="sd">        Empty if the config file doesn&#39;t exist -- same &quot;feature doesn&#39;t</span>
+<span class="sd">        exist&quot; convention ``load_slurm_config`` uses (``None``) for the</span>
+<span class="sd">        single-section case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ini_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">jobserver_name</span><span class="si">}</span><span class="s2">.ini&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ini_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ini_path</span><span class="p">)</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">sections</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.limits&quot;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">_build_section</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_section</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse one ``[section]`` (plus its optional ``[section.limits]``</span>
+<span class="sd">    companion) of an already-loaded config file into a ``SlurmSection``.</span>
+
+<span class="sd">    Shared by ``load_slurm_config()`` (one section) and ``list_sections()``</span>
+<span class="sd">    (every section), so both stay consistent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">items</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">section</span><span class="p">))</span>
+
+    <span class="n">section_type</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;slurm&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">section_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_VALID_TYPES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;section &#39;</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">&#39; has unknown type &#39;</span><span class="si">{</span><span class="n">section_type</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(expected one of </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">_VALID_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">transport</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transport&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">)</span>
     <span class="n">host</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
@@ -589,6 +667,7 @@
         <span class="n">name</span><span class="o">=</span><span class="n">section</span><span class="p">,</span>
         <span class="n">transport</span><span class="o">=</span><span class="n">transport</span><span class="p">,</span>
         <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">section_type</span><span class="p">,</span>
         <span class="n">directives</span><span class="o">=</span><span class="n">directives</span><span class="p">,</span>
         <span class="n">max_concurrent_jobs</span><span class="o">=</span><span class="n">max_concurrent_jobs</span><span class="p">,</span>
         <span class="n">max_resubmits</span><span class="o">=</span><span class="n">max_resubmits</span><span class="p">,</span>
@@ -596,8 +675,7 @@
         <span class="n">remote_root</span><span class="o">=</span><span class="n">remote_root</span><span class="p">,</span>
         <span class="n">remote_conda_env</span><span class="o">=</span><span class="n">remote_conda_env</span><span class="p">,</span>
         <span class="n">remote_run_from_jobserver</span><span class="o">=</span><span class="n">remote_run_from_jobserver</span><span class="p">,</span>
-    <span class="p">)</span></div>
-
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_load_limits</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
