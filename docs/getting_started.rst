@@ -82,3 +82,33 @@ See the design doc under :doc:`developer_guide/campaigns/2026-08-06/index`
 for the full rationale, and the workspace-root
 ``~/Work/SEAMM/jobserver-slurm-plan.md`` living plan for how this fits into
 the larger ``seamm_jobserver`` SLURM integration.
+
+Multiple queues per config file
+--------------------------------
+
+A ``<root>/<jobserver-name>.ini`` file can describe more than one
+cluster/queue target, one section each. ``load_slurm_config(root,
+jobserver_name)`` resolves a *single* section (via that file's
+``[DEFAULT] default =`` key, or the sole section if there is only one);
+``list_sections(root, jobserver_name)`` instead returns every section as a
+``{name: SlurmSection}`` dict, for a caller that routes jobs across more
+than one queue or wants to advertise "what queues exist" (e.g. to a
+submission UI):
+
+.. code-block:: python
+
+    from seamm_slurm.config import list_sections
+
+    sections = list_sections(root, "molssi10")
+    for name, section in sections.items():
+        print(name, section.type, section.transport)
+
+A section's ``type`` (default ``"slurm"``) can also be ``"local"`` -- no
+scheduler at all, for a queue that just means "run this as a plain local
+subprocess" rather than a submission target of its own.
+``build_backend()``/``build_stager()`` raise clearly if called on a
+``type = local`` section, since it has neither; a caller routes those jobs
+through its own local-subprocess path instead. See ``seamm_jobserver``'s
+design doc under ``docs/developer_guide/campaigns/2026-08-10/`` (multi-queue
+routing) for how this is used to let one JobServer instance route jobs to
+several queues -- some local, some real SLURM clusters -- at once.

@@ -41,6 +41,15 @@ _NON_DIRECTIVE_KEYS = {
     "remote_run_from_jobserver",
 }
 
+# Recognized values for a section's "type" key. "local" means "no scheduler
+# at all -- route jobs through the JobServer's existing local-subprocess
+# path," a uniform alternative to a "slurm" section rather than a submission
+# target of its own; see build_backend()/build_stager(). Not building a
+# multi-scheduler abstraction yet (the ini format's own comment already says
+# so) -- pbs/lsf/etc. are future values this leaves room for, not something
+# this campaign implements.
+_VALID_TYPES = {"slurm", "local"}
+
 
 @dataclass
 class FieldLimits:
@@ -62,6 +71,7 @@ class SlurmSection:
     name: str
     transport: str
     host: Optional[str]
+    type: str = "slurm"
     directives: dict = field(default_factory=dict)
     max_concurrent_jobs: int = 20
     max_resubmits: int = 3
@@ -83,6 +93,12 @@ class SlurmSection:
 
     def build_backend(self):
         """Construct the ``seamm_slurm`` backend this section describes."""
+        if self.type == "local":
+            raise RuntimeError(
+                f"section '{self.name}' has type=local; it has no SLURM "
+                "backend to build -- route jobs for it through the "
+                "JobServer's existing local-subprocess path instead"
+            )
         if self.transport == "local":
             return LocalSlurm()
         elif self.transport == "ssh":
@@ -101,6 +117,12 @@ class SlurmSection:
         """Construct the ``seamm_slurm`` stager this section describes --
         paired with the transport the same way ``build_backend()`` picks a
         backend."""
+        if self.type == "local":
+            raise RuntimeError(
+                f"section '{self.name}' has type=local; it has no stager "
+                "to build -- route jobs for it through the JobServer's "
+                "existing local-subprocess path instead"
+            )
         if self.transport == "local":
             return LocalStager()
         elif self.transport == "ssh":
@@ -219,7 +241,59 @@ def load_slurm_config(root, jobserver_name, section=None):
     if section not in config:
         raise RuntimeError(f"{ini_path} has no section '{section}'")
 
+    return _build_section(config, section)
+
+
+def list_sections(root, jobserver_name):
+    """Load every routable cluster/queue section from
+    ``<root>/<jobserver_name>.ini``, not just the one ``load_slurm_config()``
+    resolves via ``default=``/single-section fallback.
+
+    For per-job routing (a job asks for a named queue) and for surfacing
+    "what queues exist" to a submission UI (e.g. ``seamm_webui``'s
+    ``GET /api/queues``) -- see ``seamm_jobserver``'s
+    ``docs/developer_guide/campaigns/2026-08-10/``.
+
+    Parameters
+    ----------
+    root : str or Path
+        The SEAMM root directory (e.g. ``~/SEAMM``).
+    jobserver_name : str
+        This JobServer instance's ``--name`` (default: hostname).
+
+    Returns
+    -------
+    dict(str, SlurmSection)
+        Empty if the config file doesn't exist -- same "feature doesn't
+        exist" convention ``load_slurm_config`` uses (``None``) for the
+        single-section case.
+    """
+    ini_path = Path(root).expanduser() / f"{jobserver_name}.ini"
+    if not ini_path.exists():
+        return {}
+
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(ini_path)
+
+    names = [s for s in config.sections() if not s.endswith(".limits")]
+    return {name: _build_section(config, name) for name in names}
+
+
+def _build_section(config, section):
+    """Parse one ``[section]`` (plus its optional ``[section.limits]``
+    companion) of an already-loaded config file into a ``SlurmSection``.
+
+    Shared by ``load_slurm_config()`` (one section) and ``list_sections()``
+    (every section), so both stay consistent.
+    """
     items = dict(config.items(section))
+
+    section_type = items.get("type", "slurm")
+    if section_type not in _VALID_TYPES:
+        raise RuntimeError(
+            f"section '{section}' has unknown type '{section_type}' "
+            f"(expected one of {sorted(_VALID_TYPES)})"
+        )
 
     transport = items.get("transport", "local")
     host = items.get("host") or None
@@ -239,6 +313,7 @@ def load_slurm_config(root, jobserver_name, section=None):
         name=section,
         transport=transport,
         host=host,
+        type=section_type,
         directives=directives,
         max_concurrent_jobs=max_concurrent_jobs,
         max_resubmits=max_resubmits,

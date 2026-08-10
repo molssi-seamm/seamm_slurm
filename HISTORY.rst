@@ -2,6 +2,26 @@
 History
 =======
 
+2026.8.10 -- Multiple queues per JobServer instance, and a scheduler-free queue type
+    * ``SlurmSection`` gained a ``type`` field (``"slurm"`` by default, so
+      every existing config is unaffected) and a new ``type = local``
+      value: a queue with no scheduler at all, for a JobServer that wants
+      to route some jobs to a plain local subprocess and others to one or
+      more real SLURM clusters from the same instance. ``build_backend()``/
+      ``build_stager()`` raise a clear error if called on a ``type=local``
+      section, since it has neither -- callers route those jobs through
+      their own local-subprocess path instead.
+    * New ``list_sections(root, jobserver_name)`` enumerates every
+      cluster/queue section defined in a ``<root>/<jobserver-name>.ini``
+      file, not just the one ``load_slurm_config()`` resolves via its
+      ``default=``/single-section fallback -- needed by anything that
+      wants to route jobs across more than one queue, or to advertise
+      "what queues exist" to a submission UI. Returns ``{}`` if the ini
+      file doesn't exist, the same "feature doesn't exist" convention
+      ``load_slurm_config()`` already uses (returning ``None``).
+    * Both functions now share one internal per-section parser, so they
+      stay consistent as the ini format grows.
+
 2026.8.8 -- Stage a job's files to/from a remote host with no shared filesystem
     * New ``LocalStager``/``RsyncStager`` (``seamm_slurm.stage``), paired with
       the existing ``LocalSlurm``/``SshSlurm`` transports: lets a JobServer
