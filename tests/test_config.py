@@ -11,7 +11,12 @@ the rest of the SEAMM stack -- see the module docstring.
 import pytest
 
 import seamm_slurm
-from seamm_slurm.config import FieldLimits, SlurmSection, load_slurm_config
+from seamm_slurm.config import (
+    FieldLimits,
+    SlurmSection,
+    list_sections,
+    load_slurm_config,
+)
 
 # ---- load_slurm_config: basic section/routing behavior (unchanged from
 # ---- seamm_jobserver.slurm_config) --------------------------------------
@@ -206,6 +211,79 @@ def test_remote_run_from_jobserver_parsed_from_ini(tmp_path):
         == "/home/psaxe/miniconda3/envs/seamm/bin/run_from_jobserver"
     )
     assert "remote_run_from_jobserver" not in section.directives
+
+
+# ---- "type" (2026-08-10 campaign: multi-queue routing) -------------------
+
+
+def test_type_defaults_to_slurm(tmp_path):
+    (tmp_path / "molssi10.ini").write_text("[molssi10]\ntransport = local\n")
+    section = load_slurm_config(tmp_path, "molssi10")
+    assert section.type == "slurm"
+
+
+def test_type_local_parsed(tmp_path):
+    (tmp_path / "mac.ini").write_text("[local]\ntype = local\n")
+    section = load_slurm_config(tmp_path, "mac")
+    assert section.type == "local"
+    assert "type" not in section.directives
+
+
+def test_type_unknown_raises(tmp_path):
+    (tmp_path / "molssi10.ini").write_text("[molssi10]\ntype = pbs\n")
+    with pytest.raises(RuntimeError, match="unknown type 'pbs'"):
+        load_slurm_config(tmp_path, "molssi10")
+
+
+def test_build_backend_type_local_raises():
+    section = SlurmSection(name="x", transport="local", host=None, type="local")
+    with pytest.raises(RuntimeError, match="type=local"):
+        section.build_backend()
+
+
+def test_build_stager_type_local_raises():
+    section = SlurmSection(name="x", transport="local", host=None, type="local")
+    with pytest.raises(RuntimeError, match="type=local"):
+        section.build_stager()
+
+
+# ---- list_sections ---------------------------------------------------------
+
+
+def test_list_sections_missing_file_returns_empty_dict(tmp_path):
+    assert list_sections(tmp_path, "molssi10") == {}
+
+
+def test_list_sections_returns_every_routable_section(tmp_path):
+    (tmp_path / "molssi10.ini").write_text(
+        "[DEFAULT]\n"
+        "default = local\n"
+        "\n"
+        "[local]\n"
+        "type = local\n"
+        "\n"
+        "[molssi10]\n"
+        "transport = local\n"
+        "\n"
+        "[chemai]\n"
+        "transport = ssh\n"
+        "host = seamm-chemai\n"
+        "\n"
+        "[molssi10.limits]\n"
+        "overridable = ntasks\n"
+    )
+    sections = list_sections(tmp_path, "molssi10")
+    assert set(sections) == {"local", "molssi10", "chemai"}
+    assert sections["local"].type == "local"
+    assert sections["molssi10"].type == "slurm"
+    assert sections["chemai"].host == "seamm-chemai"
+    assert sections["molssi10"].limits == {"ntasks": FieldLimits()}
+
+
+def test_list_sections_single_section(tmp_path):
+    (tmp_path / "molssi10.ini").write_text("[molssi10]\ntransport = local\n")
+    sections = list_sections(tmp_path, "molssi10")
+    assert set(sections) == {"molssi10"}
 
 
 # ---- [<section>.limits] parsing ------------------------------------------
