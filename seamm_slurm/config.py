@@ -39,6 +39,7 @@ _NON_DIRECTIVE_KEYS = {
     "remote_root",
     "remote_conda_env",
     "remote_run_from_jobserver",
+    "setup",
 }
 
 # Recognized values for a section's "type" key. "local" means "no scheduler
@@ -90,6 +91,15 @@ class SlurmSection:
     remote_root: Optional[str] = None
     remote_conda_env: Optional[str] = None
     remote_run_from_jobserver: Optional[str] = None
+    # Raw shell commands run at the top of the sbatch script, before
+    # run_from_jobserver -- e.g. "module load ORCA" for a code whose
+    # binary needs an environment-modules-managed LD_LIBRARY_PATH/PATH
+    # that the submitting host's own environment doesn't carry (SLURM
+    # inherits the *submitting* shell's environment, not the compute
+    # node's module state). Ini multi-line syntax (indented continuation
+    # lines) allows more than one command. Not templated/escaped in any
+    # way -- trusted config, not job input.
+    setup: Optional[str] = None
 
     def build_backend(self):
         """Construct the ``seamm_slurm`` backend this section describes."""
@@ -302,6 +312,7 @@ def _build_section(config, section):
     remote_root = items.get("remote_root") or None
     remote_conda_env = items.get("remote_conda_env") or None
     remote_run_from_jobserver = items.get("remote_run_from_jobserver") or None
+    setup = items.get("setup") or None
 
     directives = {
         k: v for k, v in items.items() if k not in _NON_DIRECTIVE_KEYS and v != ""
@@ -321,6 +332,7 @@ def _build_section(config, section):
         remote_root=remote_root,
         remote_conda_env=remote_conda_env,
         remote_run_from_jobserver=remote_run_from_jobserver,
+        setup=setup,
     )
 
 

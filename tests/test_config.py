@@ -213,6 +213,39 @@ def test_remote_run_from_jobserver_parsed_from_ini(tmp_path):
     assert "remote_run_from_jobserver" not in section.directives
 
 
+# ---- "setup" (2026-08-11: module load / remote shell setup) --------------
+
+
+def test_setup_parsed_from_ini(tmp_path):
+    (tmp_path / "molssi10.ini").write_text(
+        "[tinkercliffs]\n"
+        "transport = ssh\n"
+        "host = tinkercliffs\n"
+        "setup = module load ORCA\n"
+    )
+    section = load_slurm_config(tmp_path, "molssi10")
+    assert section.setup == "module load ORCA"
+    assert "setup" not in section.directives
+
+
+def test_setup_multiline_parsed_from_ini(tmp_path):
+    (tmp_path / "molssi10.ini").write_text(
+        "[tinkercliffs]\n"
+        "transport = ssh\n"
+        "host = tinkercliffs\n"
+        "setup = module load ORCA\n"
+        "    module load GCC\n"
+    )
+    section = load_slurm_config(tmp_path, "molssi10")
+    assert section.setup == "module load ORCA\nmodule load GCC"
+
+
+def test_setup_defaults_to_none(tmp_path):
+    (tmp_path / "molssi10.ini").write_text("[molssi10]\ntransport = local\n")
+    section = load_slurm_config(tmp_path, "molssi10")
+    assert section.setup is None
+
+
 # ---- "type" (2026-08-10 campaign: multi-queue routing) -------------------
 
 
