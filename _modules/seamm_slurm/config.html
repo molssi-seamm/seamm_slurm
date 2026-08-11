@@ -372,6 +372,7 @@
     <span class="s2">&quot;remote_root&quot;</span><span class="p">,</span>
     <span class="s2">&quot;remote_conda_env&quot;</span><span class="p">,</span>
     <span class="s2">&quot;remote_run_from_jobserver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;setup&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Recognized values for a section&#39;s &quot;type&quot; key. &quot;local&quot; means &quot;no scheduler</span>
@@ -428,6 +429,15 @@
     <span class="n">remote_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">remote_conda_env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">remote_run_from_jobserver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Raw shell commands run at the top of the sbatch script, before</span>
+    <span class="c1"># run_from_jobserver -- e.g. &quot;module load ORCA&quot; for a code whose</span>
+    <span class="c1"># binary needs an environment-modules-managed LD_LIBRARY_PATH/PATH</span>
+    <span class="c1"># that the submitting host&#39;s own environment doesn&#39;t carry (SLURM</span>
+    <span class="c1"># inherits the *submitting* shell&#39;s environment, not the compute</span>
+    <span class="c1"># node&#39;s module state). Ini multi-line syntax (indented continuation</span>
+    <span class="c1"># lines) allows more than one command. Not templated/escaped in any</span>
+    <span class="c1"># way -- trusted config, not job input.</span>
+    <span class="n">setup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SlurmSection.build_backend">
 <a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.SlurmSection.build_backend">[docs]</a>
@@ -656,6 +666,7 @@
     <span class="n">remote_root</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_root&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
     <span class="n">remote_conda_env</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_conda_env&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
     <span class="n">remote_run_from_jobserver</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;remote_run_from_jobserver&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;setup&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
 
     <span class="n">directives</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NON_DIRECTIVE_KEYS</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
@@ -675,6 +686,7 @@
         <span class="n">remote_root</span><span class="o">=</span><span class="n">remote_root</span><span class="p">,</span>
         <span class="n">remote_conda_env</span><span class="o">=</span><span class="n">remote_conda_env</span><span class="p">,</span>
         <span class="n">remote_run_from_jobserver</span><span class="o">=</span><span class="n">remote_run_from_jobserver</span><span class="p">,</span>
+        <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span>
     <span class="p">)</span>
 
 

@@ -420,8 +420,12 @@ no-op, for the shared-filesystem case above) or <code class="docutils literal no
 <p><code class="docutils literal notranslate"><span class="pre">SlurmSection.build_stager()</span></code> picks the right one automatically from a
 <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/&lt;jobserver-name&gt;.ini</span></code> section’s <code class="docutils literal notranslate"><span class="pre">transport</span></code> key, the same way
 <code class="docutils literal notranslate"><span class="pre">build_backend()</span></code> picks the transport – see <code class="docutils literal notranslate"><span class="pre">seamm_jobserver</span></code>’s user
-guide for the full ini format, including <code class="docutils literal notranslate"><span class="pre">remote_root</span></code> and
-<code class="docutils literal notranslate"><span class="pre">remote_run_from_jobserver</span></code>/<code class="docutils literal notranslate"><span class="pre">remote_conda_env</span></code>.</p>
+guide for the full ini format, including <code class="docutils literal notranslate"><span class="pre">remote_root</span></code>,
+<code class="docutils literal notranslate"><span class="pre">remote_run_from_jobserver</span></code>/<code class="docutils literal notranslate"><span class="pre">remote_conda_env</span></code>, and <code class="docutils literal notranslate"><span class="pre">setup</span></code> (raw
+shell commands, e.g. <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">ORCA</span></code>, run at the top of the
+generated sbatch script before <code class="docutils literal notranslate"><span class="pre">run_from_jobserver</span></code> – for a queue
+whose submission environment doesn’t otherwise carry whatever a code’s
+own <code class="docutils literal notranslate"><span class="pre">installation</span> <span class="pre">=</span> <span class="pre">modules</span></code> needs).</p>
 <p>See the design doc under <a class="reference internal" href="developer_guide/campaigns/2026-08-06/index.html"><span class="doc">2026-08-06 – Initial scaffold</span></a>
 for the full rationale, and the workspace-root
 <code class="docutils literal notranslate"><span class="pre">~/Work/SEAMM/jobserver-slurm-plan.md</span></code> living plan for how this fits into
