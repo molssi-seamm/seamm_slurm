@@ -2,6 +2,17 @@
 History
 =======
 
+2026.8.11 -- A per-queue ``setup`` field for raw shell commands before a job runs
+    * ``SlurmSection`` gained a new ``setup`` field: raw shell commands
+      (e.g. ``module load ORCA``, or several via ini continuation lines)
+      run at the top of the generated sbatch script, before
+      ``run_from_jobserver``. For a queue whose own submission
+      environment doesn't already carry whatever a code's
+      ``installation = modules`` setting needs (e.g. a JobServer
+      dispatching over a bare, non-interactive ssh connection with no
+      ``MODULEPATH``/Lmod set up). Blank/unset by default -- no effect on
+      any existing config.
+
 2026.8.10 -- Multiple queues per JobServer instance, and a scheduler-free queue type
     * ``SlurmSection`` gained a ``type`` field (``"slurm"`` by default, so
       every existing config is unaffected) and a new ``type = local``

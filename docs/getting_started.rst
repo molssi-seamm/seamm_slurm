@@ -75,8 +75,12 @@ no-op, for the shared-filesystem case above) or ``RsyncStager``:
 ``SlurmSection.build_stager()`` picks the right one automatically from a
 ``<root>/<jobserver-name>.ini`` section's ``transport`` key, the same way
 ``build_backend()`` picks the transport -- see ``seamm_jobserver``'s user
-guide for the full ini format, including ``remote_root`` and
-``remote_run_from_jobserver``/``remote_conda_env``.
+guide for the full ini format, including ``remote_root``,
+``remote_run_from_jobserver``/``remote_conda_env``, and ``setup`` (raw
+shell commands, e.g. ``module load ORCA``, run at the top of the
+generated sbatch script before ``run_from_jobserver`` -- for a queue
+whose submission environment doesn't otherwise carry whatever a code's
+own ``installation = modules`` needs).
 
 See the design doc under :doc:`developer_guide/campaigns/2026-08-06/index`
 for the full rationale, and the workspace-root
