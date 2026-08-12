@@ -499,6 +499,34 @@ def test_merge_overrides_mem_mixed_units():
     assert section.merge_overrides({"mem": "100000M"})["mem"] == "100000M"
 
 
+def test_merge_overrides_mem_per_cpu_within_bounds():
+    # Regression test: mem_per_cpu (unlike the bare "mem" directive) used to
+    # fall through to a plain float(), which crashes on any unit suffix --
+    # found via a real ChemAI job (2553) that resubmitted its own defaults
+    # ("1900M") as an explicit override and got "startup error" before a
+    # single SLURM script was written.
+    section = SlurmSection(
+        name="x",
+        transport="local",
+        host=None,
+        directives={"mem_per_cpu": "1900M"},
+        limits={"mem_per_cpu": FieldLimits(maximum="4000M")},
+    )
+    assert section.merge_overrides({"mem_per_cpu": "1900M"})["mem_per_cpu"] == "1900M"
+
+
+def test_merge_overrides_mem_per_cpu_above_maximum_raises():
+    section = SlurmSection(
+        name="x",
+        transport="local",
+        host=None,
+        directives={"mem_per_cpu": "1900M"},
+        limits={"mem_per_cpu": FieldLimits(maximum="4000M")},
+    )
+    with pytest.raises(ValueError, match="exceeds the maximum"):
+        section.merge_overrides({"mem_per_cpu": "8G"})
+
+
 def test_merge_overrides_time_within_bounds():
     section = SlurmSection(
         name="x",

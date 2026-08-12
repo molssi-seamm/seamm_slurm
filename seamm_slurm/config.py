@@ -410,7 +410,7 @@ def _parse_time(value):
 
 def _parse_slurm_value(field_name, value):
     """Parse a directive value into a comparable float."""
-    if field_name == "mem":
+    if field_name == "mem" or field_name.startswith("mem_per_"):
         return _parse_size(value)
     if field_name == "time":
         return _parse_time(value)
