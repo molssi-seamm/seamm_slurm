@@ -764,7 +764,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_slurm_value</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a directive value into a comparable float.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;mem&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;mem&quot;</span> <span class="ow">or</span> <span class="n">field_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;mem_per_&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_parse_size</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_parse_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
