@@ -2,6 +2,19 @@
 History
 =======
 
+2026.8.12 -- Bugfix: ``mem_per_cpu``/other per-unit memory overrides crashed at startup
+    * ``merge_overrides()`` validates a job's requested SLURM directive
+      overrides against ``[section.limits]``, parsing each value into a
+      comparable number first. That parsing only recognized the literal
+      field name ``mem`` as a unit-suffixed size (e.g. ``"1900M"``) --
+      ``mem_per_cpu`` (and any other ``mem_per_*`` directive) fell through
+      to a plain ``float()``, which raised
+      ``ValueError: could not convert string to float: '1900M'`` for any
+      job that explicitly requested one, even a value matching the
+      section's own default. The job failed immediately with no SLURM
+      script ever generated. ``mem_per_cpu`` and other ``mem_per_*``
+      fields now parse the same unit-suffixed way ``mem`` already did.
+
 2026.8.11 -- A per-queue ``setup`` field for raw shell commands before a job runs
     * ``SlurmSection`` gained a new ``setup`` field: raw shell commands
       (e.g. ``module load ORCA``, or several via ini continuation lines)
