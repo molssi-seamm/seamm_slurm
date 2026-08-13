@@ -6,7 +6,20 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from seamm_slurm.stage import LocalStager, RsyncStager, StageError
+from seamm_slurm.stage import (
+    STAGE_LOCK_FILENAME,
+    LocalStager,
+    RsyncStager,
+    StageError,
+)
+
+
+def test_stage_lock_filename_is_a_plain_relative_filename():
+    """Consumers join this under a job's own wdir (e.g.
+    ``Path(wdir) / STAGE_LOCK_FILENAME``) -- it must not itself be a path
+    with directory components."""
+    assert "/" not in STAGE_LOCK_FILENAME
+    assert STAGE_LOCK_FILENAME
 
 
 def test_local_stager_stage_in_is_a_no_op_returning_local_wdir():

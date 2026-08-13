@@ -20,6 +20,18 @@ import shlex
 import subprocess
 from abc import ABC, abstractmethod
 
+# Shared filename (not a full path -- callers join it under a job's own
+# local working directory) for an advisory lock guarding concurrent
+# stage_out() calls for the same job -- e.g. seamm_jobserver's real
+# end-of-run pull racing a Dashboard's on-demand "sync a still-running
+# job's files now" pull. Lives here (a plain string constant, no new
+# dependency) rather than as locking logic in this module, since
+# seamm_slurm is deliberately dependency-free (see pyproject.toml) --
+# each consumer already depends on `fasteners` for its own reasons and
+# uses this filename to agree on where to acquire an
+# InterProcessLock, without seamm_slurm itself needing to depend on it.
+STAGE_LOCK_FILENAME = ".stage.lock"
+
 
 class StageError(RuntimeError):
     """Raised when staging a job's files to or from a remote host fails."""

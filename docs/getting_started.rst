@@ -82,6 +82,23 @@ generated sbatch script before ``run_from_jobserver`` -- for a queue
 whose submission environment doesn't otherwise carry whatever a code's
 own ``installation = modules`` needs).
 
+``remote_wdir`` above (a scratch path on the remote host, distinct from
+``local_wdir``) is not something a caller invents -- ``SlurmSection`` also
+computes it, deterministically, from ``remote_root`` and the local
+directory's own name:
+
+.. code-block:: python
+
+    remote_wdir = section.remote_wdir_for(local_wdir)
+
+Because it's a pure function of ``local_wdir`` and the section's own
+config, any caller who knows both can recompute the same path
+independently -- not just whichever process originally called
+``stage_in()``. This is what lets something like a Dashboard pull a
+still-*running* job's files back on demand (``stager.stage_out(section.
+remote_wdir_for(local_wdir), local_wdir)``) without needing to ask the
+process that submitted the job where it put things.
+
 See the design doc under :doc:`developer_guide/campaigns/2026-08-06/index`
 for the full rationale, and the workspace-root
 ``~/Work/SEAMM/jobserver-slurm-plan.md`` living plan for how this fits into

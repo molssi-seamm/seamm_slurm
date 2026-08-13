@@ -20,7 +20,7 @@ stack. See ``seamm_jobserver``'s ``docs/developer_guide/campaigns/
 import configparser
 import re
 from dataclasses import dataclass, field
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Optional
 
 from .local import LocalSlurm
@@ -146,6 +146,34 @@ class SlurmSection:
                 f"SLURM section '{self.name}' has unknown transport "
                 f"'{self.transport}' (expected 'local' or 'ssh')"
             )
+
+    def remote_wdir_for(self, local_wdir):
+        """The remote scratch path a ``transport = ssh`` section's job
+        should run in (or, for an already-running job, where its files
+        currently live), derived from its local working directory's name
+        and this section's ``remote_root``.
+
+        Deterministic and side-effect-free -- callers besides the one that
+        originally submitted the job (e.g. a Dashboard pulling a running
+        job's files back on demand, rather than waiting for the job to
+        finish) can recompute the same path independently, as long as they
+        agree on ``local_wdir`` and this section's config. Job directory
+        names (``Job_NNNNNN``) are unique across the whole datastore, not
+        just within a project, so no collision risk.
+
+        Raises
+        ------
+        RuntimeError
+            If this section has no ``remote_root`` set -- only meaningful
+            for ``transport = ssh``.
+        """
+        if not self.remote_root:
+            raise RuntimeError(
+                f"SLURM section '{self.name}' has transport=ssh but "
+                "no remote_root is set -- can't determine where to stage "
+                f"jobs on {self.host}."
+            )
+        return str(PurePosixPath(self.remote_root) / Path(local_wdir).name)
 
     def merge_overrides(self, requested):
         """Merge a job's requested per-directive overrides on top of this

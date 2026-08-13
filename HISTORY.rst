@@ -2,6 +2,24 @@
 History
 =======
 
+2026.8.13 -- Internal: a shared, reusable way to compute a job's remote scratch path
+    * ``SlurmSection`` gained ``remote_wdir_for(local_wdir)``, factored out
+      of ``seamm_jobserver``'s own private ``_remote_wdir()`` helper. It's
+      a pure function of a job's local working directory and the
+      section's own ``remote_root``, so any caller that knows both --
+      not just whichever process originally staged the job in -- can
+      recompute the same remote path independently. Lays the groundwork
+      for a Dashboard to pull a still-running ``transport = ssh`` job's
+      files back on demand, rather than only after SLURM reports it
+      terminal.
+    * ``stage.py`` gained a ``STAGE_LOCK_FILENAME`` constant: a shared
+      filename (not a full path) two independent processes can agree to
+      lock under a job's own working directory before calling
+      ``stage_out()``, so a real end-of-run pull and an on-demand
+      mid-run pull can't race each other. A plain string constant, not
+      locking logic itself, to keep this package dependency-free.
+    * No behavior change to any existing code path.
+
 2026.8.12 -- Bugfix: ``mem_per_cpu``/other per-unit memory overrides crashed at startup
     * ``merge_overrides()`` validates a job's requested SLURM directive
       overrides against ``[section.limits]``, parsing each value into a
