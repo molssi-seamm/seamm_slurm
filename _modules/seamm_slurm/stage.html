@@ -353,6 +353,18 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
+<span class="c1"># Shared filename (not a full path -- callers join it under a job&#39;s own</span>
+<span class="c1"># local working directory) for an advisory lock guarding concurrent</span>
+<span class="c1"># stage_out() calls for the same job -- e.g. seamm_jobserver&#39;s real</span>
+<span class="c1"># end-of-run pull racing a Dashboard&#39;s on-demand &quot;sync a still-running</span>
+<span class="c1"># job&#39;s files now&quot; pull. Lives here (a plain string constant, no new</span>
+<span class="c1"># dependency) rather than as locking logic in this module, since</span>
+<span class="c1"># seamm_slurm is deliberately dependency-free (see pyproject.toml) --</span>
+<span class="c1"># each consumer already depends on `fasteners` for its own reasons and</span>
+<span class="c1"># uses this filename to agree on where to acquire an</span>
+<span class="c1"># InterProcessLock, without seamm_slurm itself needing to depend on it.</span>
+<span class="n">STAGE_LOCK_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;.stage.lock&quot;</span>
+
 
 <div class="viewcode-block" id="StageError">
 <a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.stage.StageError">[docs]</a>

@@ -426,6 +426,20 @@ shell commands, e.g. <code class="docutils literal notranslate"><span class="pre
 generated sbatch script before <code class="docutils literal notranslate"><span class="pre">run_from_jobserver</span></code> – for a queue
 whose submission environment doesn’t otherwise carry whatever a code’s
 own <code class="docutils literal notranslate"><span class="pre">installation</span> <span class="pre">=</span> <span class="pre">modules</span></code> needs).</p>
+<p><code class="docutils literal notranslate"><span class="pre">remote_wdir</span></code> above (a scratch path on the remote host, distinct from
+<code class="docutils literal notranslate"><span class="pre">local_wdir</span></code>) is not something a caller invents – <code class="docutils literal notranslate"><span class="pre">SlurmSection</span></code> also
+computes it, deterministically, from <code class="docutils literal notranslate"><span class="pre">remote_root</span></code> and the local
+directory’s own name:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remote_wdir</span> <span class="o">=</span> <span class="n">section</span><span class="o">.</span><span class="n">remote_wdir_for</span><span class="p">(</span><span class="n">local_wdir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Because it’s a pure function of <code class="docutils literal notranslate"><span class="pre">local_wdir</span></code> and the section’s own
+config, any caller who knows both can recompute the same path
+independently – not just whichever process originally called
+<code class="docutils literal notranslate"><span class="pre">stage_in()</span></code>. This is what lets something like a Dashboard pull a
+still-<em>running</em> job’s files back on demand (<code class="docutils literal notranslate"><span class="pre">stager.stage_out(section.</span>
+<span class="pre">remote_wdir_for(local_wdir),</span> <span class="pre">local_wdir)</span></code>) without needing to ask the
+process that submitted the job where it put things.</p>
 <p>See the design doc under <a class="reference internal" href="developer_guide/campaigns/2026-08-06/index.html"><span class="doc">2026-08-06 – Initial scaffold</span></a>
 for the full rationale, and the workspace-root
 <code class="docutils literal notranslate"><span class="pre">~/Work/SEAMM/jobserver-slurm-plan.md</span></code> living plan for how this fits into

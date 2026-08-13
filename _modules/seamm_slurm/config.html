@@ -353,7 +353,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">configparser</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span><span class="p">,</span> <span class="n">PurePosixPath</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalSlurm</span>
@@ -489,6 +489,37 @@
                 <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has unknown transport &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="si">}</span><span class="s2">&#39; (expected &#39;local&#39; or &#39;ssh&#39;)&quot;</span>
             <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SlurmSection.remote_wdir_for">
+<a class="viewcode-back" href="../../api/seamm_slurm.html#seamm_slurm.config.SlurmSection.remote_wdir_for">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remote_wdir_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_wdir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The remote scratch path a ``transport = ssh`` section&#39;s job</span>
+<span class="sd">        should run in (or, for an already-running job, where its files</span>
+<span class="sd">        currently live), derived from its local working directory&#39;s name</span>
+<span class="sd">        and this section&#39;s ``remote_root``.</span>
+
+<span class="sd">        Deterministic and side-effect-free -- callers besides the one that</span>
+<span class="sd">        originally submitted the job (e.g. a Dashboard pulling a running</span>
+<span class="sd">        job&#39;s files back on demand, rather than waiting for the job to</span>
+<span class="sd">        finish) can recompute the same path independently, as long as they</span>
+<span class="sd">        agree on ``local_wdir`` and this section&#39;s config. Job directory</span>
+<span class="sd">        names (``Job_NNNNNN``) are unique across the whole datastore, not</span>
+<span class="sd">        just within a project, so no collision risk.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        RuntimeError</span>
+<span class="sd">            If this section has no ``remote_root`` set -- only meaningful</span>
+<span class="sd">            for ``transport = ssh``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote_root</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;SLURM section &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has transport=ssh but &quot;</span>
+                <span class="s2">&quot;no remote_root is set -- can&#39;t determine where to stage &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;jobs on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_root</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">local_wdir</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SlurmSection.merge_overrides">
