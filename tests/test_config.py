@@ -280,6 +280,42 @@ def test_build_stager_type_local_raises():
         section.build_stager()
 
 
+# ---- remote_wdir_for --------------------------------------------------------
+
+
+def test_remote_wdir_for_joins_remote_root_and_local_dir_name():
+    section = SlurmSection(
+        name="molssi10",
+        transport="ssh",
+        host="molssi10",
+        remote_root="/scratch/psaxe/seamm_jobs",
+    )
+    assert (
+        section.remote_wdir_for("/Users/psaxe/SEAMM/Jobs/projects/default/Job_000123")
+        == "/scratch/psaxe/seamm_jobs/Job_000123"
+    )
+
+
+def test_remote_wdir_for_no_remote_root_raises():
+    section = SlurmSection(name="molssi10", transport="ssh", host="molssi10")
+    with pytest.raises(RuntimeError, match="no remote_root is set"):
+        section.remote_wdir_for("/Users/psaxe/SEAMM/Jobs/projects/default/Job_000123")
+
+
+def test_remote_wdir_for_deterministic_across_calls():
+    """Two independent callers (e.g. seamm_jobserver at submit time and a
+    Dashboard pulling a running job's files on demand later) must compute
+    the exact same path from the same inputs."""
+    section = SlurmSection(
+        name="molssi10",
+        transport="ssh",
+        host="molssi10",
+        remote_root="/scratch/psaxe/seamm_jobs",
+    )
+    wdir = "/Users/psaxe/SEAMM/Jobs/projects/default/Job_000123"
+    assert section.remote_wdir_for(wdir) == section.remote_wdir_for(wdir)
+
+
 # ---- list_sections ---------------------------------------------------------
 
 
