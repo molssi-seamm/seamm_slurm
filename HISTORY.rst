@@ -2,6 +2,12 @@
 History
 =======
 
+(unreleased) -- Now a compatibility shim over seamm_scheduler
+    * Every module re-exports from ``seamm_scheduler``, which generalizes this
+      package to other queueing systems. Existing imports, classes and
+      behaviour are unchanged; the test suite passes as it was.
+    * Requires ``seamm-scheduler``.
+
 2026.8.13 -- Internal: a shared, reusable way to compute a job's remote scratch path
     * ``SlurmSection`` gained ``remote_wdir_for(local_wdir)``, factored out
       of ``seamm_jobserver``'s own private ``_remote_wdir()`` helper. It's
