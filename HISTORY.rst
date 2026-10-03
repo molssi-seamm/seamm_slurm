@@ -2,11 +2,15 @@
 History
 =======
 
-(unreleased) -- Now a compatibility shim over seamm_scheduler
+2026.10.2 -- Internal: now a compatibility shim over seamm_scheduler
     * Every module re-exports from ``seamm_scheduler``, which generalizes this
       package to other queueing systems. Existing imports, classes and
       behaviour are unchanged; the test suite passes as it was.
-    * Requires ``seamm-scheduler``.
+    * Requires ``seamm-scheduler`` 2026.10.2. A bare SLURM time in a
+      ``.limits`` bound (``time.max = 60``) is now minutes, as SLURM reads it,
+      not seconds.
+    * The shared CI now runs on uv: ``devtools/conda-envs/test_env.yaml`` is
+      removed.
 
 2026.8.13 -- Internal: a shared, reusable way to compute a job's remote scratch path
     * ``SlurmSection`` gained ``remote_wdir_for(local_wdir)``, factored out

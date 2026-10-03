@@ -23,7 +23,7 @@ requires-python = ">=3.9"
 # only, so it is usable standalone (e.g. from seamm_exec later) without
 # pulling in the rest of the SEAMM stack.
 dependencies = [
-    "seamm-scheduler",
+    "seamm-scheduler>=2026.10.2",
 ]
 
 [project.urls]
