@@ -1,6 +1,12 @@
 Getting Started
 ===============
 
+.. note::
+
+   ``seamm_slurm`` is now a compatibility shim. Its code moved to
+   ``seamm_scheduler``, which also supports PBS; everything below still works
+   through the same imports, but new code should use ``seamm_scheduler``.
+
 ``seamm_slurm`` wraps the SLURM command-line tools (``sbatch``, ``squeue``,
 ``sacct``, ``scancel``) behind one interface, ``SlurmBackend``, with two
 transports -- ``LocalSlurm`` (SLURM CLI on the current host) and

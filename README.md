@@ -3,6 +3,12 @@ seamm_slurm
 [//]: # (Badges)
 [![GitHub Actions Build Status](https://github.com/molssi-seamm/seamm_slurm/workflows/CI/badge.svg)](https://github.com/molssi-seamm/seamm_slurm/actions?query=workflow%3ACI)
 
+**Now a compatibility shim.** Everything here moved to
+[seamm_scheduler](https://github.com/molssi-seamm/seamm_scheduler), which
+generalizes it to other queueing systems (PBS, ...). Every module of
+`seamm_slurm` re-exports from there, so existing code keeps working; new code
+should import `seamm_scheduler`.
+
 A small library that wraps the SLURM command-line tools (`sbatch`, `squeue`,
 `sacct`, `scancel`) behind one interface, `SlurmBackend`, with two transports:
 

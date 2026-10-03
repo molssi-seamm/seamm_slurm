@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""seamm_slurm: a SLURM CLI backend (submit/poll/cancel) for SEAMM."""
+"""seamm_slurm: a SLURM CLI backend (submit/poll/cancel) for SEAMM.
+
+Now a compatibility shim: everything lives in ``seamm_scheduler``, which
+generalizes this package to other queueing systems. The names and modules here
+are kept so existing importers (``seamm_jobserver``, ``seamm_webui``) keep
+working unchanged.
+"""
 
 from .backend import SlurmBackend, SlurmError, SlurmSubmitError  # noqa: F401
 from .config import (  # noqa: F401
